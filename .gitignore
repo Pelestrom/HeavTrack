@@ -1,5 +1,7 @@
 # Installe le package Python 'virtualenv' qui permet de créer des environnements virtuels pour isoler les dépendances de votre projet.
 pip install virtualenv
+# Créez un environnement virtuel
+virtualenv env ou python3 -m venv env
 # Active l'environnement virtuel situé dans le répertoire 'env'. Sous Windows, cette commande exécute le script 'activate' pour activer l'environnement virtuel.
 .\env\Scripts\activate
 # Installe les dépendances listées dans le fichier 'requirements.txt' dans l'environnement virtuel actif. Ce fichier contient les packages Python nécessaires à votre projet.
