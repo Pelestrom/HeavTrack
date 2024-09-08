@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 # Create your views here.
-def acceuil(request):
-    return render(request, 'CivisTrack_App/acceuil.html')  # 'index.html' est le fichier du template d'accueil
+def accueil(request):
+    return render(request, 'CivisTrack_App/accueil.html')  # 'index.html' est le fichier du template d'accueil
 
 def inscription(request):
     return render(request, 'CivisTrack_App/inscription.html') 

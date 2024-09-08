@@ -4,8 +4,8 @@ from CivisTrack_App import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.acceuil, name='acceuil'),
-    path('acceuil/', views.acceuil, name='acceuil'),
+    path('', views.accueil, name='accueil'),
+    path('accueil/', views.accueil, name='accueil'),
     path('inscription/', views.inscription, name='inscription'),
     path('connexion/', views.connexion, name='connexion'),
     path('services1/', views.services1, name='services1'),
