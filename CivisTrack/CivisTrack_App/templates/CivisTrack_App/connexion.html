@@ -1,0 +1,48 @@
+{% load static %}
+<html>
+    <head> 
+    <title>CivisTrack - Connexion</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'CivisTrack_App/css/connexion.css' %}">
+    
+    </head>
+    <body class="bg-gray-100 bg-pattern min-h-screen flex items-center justify-center" style="background-color: var(--bg-color); color: var(--text-color);">
+      <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md" style="background-color: var(--bg-color);">
+        <h2 class="text-2xl font-bold mb-6 text-center" data-translate="login">Connexion</h2>
+        <form id="loginForm">
+          <div class="mb-4">
+            <label class="block text-sm font-bold mb-2" for="email" data-translate="email">
+              Adresse e-mail
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="exemple@email.com" required>
+          </div>
+          <div class="mb-6">
+            <label class="block text-sm font-bold mb-2" for="password" data-translate="password">
+              Mot de passe
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="••••••••" required>
+          </div>
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <input type="checkbox" id="remember" class="mr-2">
+              <label for="remember" class="text-sm" data-translate="rememberMe">Se souvenir de moi</label>
+            </div>
+            <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#" data-translate="forgotPassword">
+              Mot de passe oublié ?
+            </a>
+          </div>
+          <div class="flex items-center justify-between">
+            <button class="btn-3d bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" data-translate="login">
+              Se connecter
+            </button>
+            <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="inscription.html" data-translate="noAccount">
+              Pas de compte ? S'inscrire
+            </a>
+          </div>
+        </form>
+      </div>
+      <script src="{% static 'CivisTrack_App/js/connexion.js' %}" defer></script>
+    </body>
+    </html>

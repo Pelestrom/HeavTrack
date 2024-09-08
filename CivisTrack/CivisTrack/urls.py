@@ -1,22 +1,15 @@
-"""
-URL configuration for CivisTrack project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
+from CivisTrack_App import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.acceuil, name='acceuil'),
+    path('acceuil/', views.acceuil, name='acceuil'),
+    path('inscription/', views.inscription, name='inscription'),
+    path('connexion/', views.connexion, name='connexion'),
+    path('services1/', views.services1, name='services1'),
+    path('services2/', views.services2, name='services2'),
+    path('propos/', views.propos, name='propos'),
+    path('contact/', views.contact, name='contact'),
 ]
