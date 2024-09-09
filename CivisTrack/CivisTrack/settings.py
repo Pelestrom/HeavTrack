@@ -64,7 +64,14 @@ WSGI_APPLICATION = 'CivisTrack.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+      'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'CivisTrack',
+        'USER': 'HeavTrack',
+        'PASSWORD': 'inphb@esi',
+        'HOST': 'localhost',  # ou l'adresse de ton serveur si c'est un serveur distant
+        'PORT': '5432',       # le port par défaut de PostgreSQL
+
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
