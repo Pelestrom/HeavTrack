@@ -67,13 +67,11 @@ DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'CivisTrack',
-        'USER': 'HeavTrack',
-        'PASSWORD': 'inphb@esi',
+        'USER': 'postgres',
+        'PASSWORD': '0140087183',
         'HOST': 'localhost',  # ou l'adresse de ton serveur si c'est un serveur distant
         'PORT': '5432',       # le port par défaut de PostgreSQL
-
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+ 
     }
 }
 
@@ -95,6 +93,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = 'CivisTrack_App.CustomUser'
 
 
 # Internationalization

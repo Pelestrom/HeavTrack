@@ -1,27 +1,40 @@
- const signupForm = document.getElementById('signup-form');
-signupForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const nom = document.getElementById('nom').value;
-  const prenom = document.getElementById('prenom').value;
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  const confirmPassword = document.getElementById('confirm-password').value;
+document.addEventListener('DOMContentLoaded', () => {
+  const inscriptionForm = document.getElementById('inscription-form');
+  inscriptionForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(inscriptionForm);
 
-  if (password !== confirmPassword) {
-    alert('Les mots de passe ne correspondent pas.');
-    return;
-  }
+    fetch('/inscription/', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('Inscription réussie !');
+        window.location.href = '/connexion/';
+      } else {
+        alert('Erreur lors de l\'inscription : ' + data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Erreur:', error);
+      alert('Une erreur est survenue. Veuillez réessayer.');
+    });
+  });
 
-  // Ici, vous pouvez ajouter le code pour envoyer les données d'inscription à votre backend
-  console.log('Inscription soumise:', { nom, prenom, email, password });
-  alert('Inscription réussie !');
-  // Rediriger vers la page de connexion ou le tableau de bord après l'inscription
-  window.location.href = '/connexion.html';
+  // Gestion des traductions et du thème (inchangé)
 });
+
 
 const translations = {
   'fr': {
-    'signup': 'Inscription',
+    'inscription': 'Inscription',
     'lastname': 'Nom',
     'firstname': 'Prénom',
     'email': 'Email',
@@ -39,7 +52,7 @@ const translations = {
     'followUs': 'Suivez-nous'
   },
   'en': {
-    'signup': 'Sign Up',
+    'inscription': 'Sign Up',
     'lastname': 'Last Name',
     'firstname': 'First Name',
     'email': 'Email',
