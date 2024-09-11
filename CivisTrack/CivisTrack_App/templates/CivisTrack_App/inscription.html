@@ -1,47 +1,80 @@
-{% load form_filters %}
-{% load static %}
+ 
+ {% comment %} {% load static %}
+     <!DOCTYPE html>
+     <html lang="en">
+     <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>Inscription</title>
+     </head>
+     <body>
+         <div class="container">
+             <div class="container">
+                 <div class="form">
+                     <form method="post" action="{% url 'inscription' %}">
+                         {% csrf_token %}
+                         <h1>Inscription</h1>
+                         {{ form.as_p }}    
+                         <button type="submit">S'inscrire</button>
+                     </form>
+                     <p class="link">Déjà inscrit ? <a href="{% url 'connexion' %}">Se connecter</a></p>
+                 </div>
+             </div>      
+         </div>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription</title>
-    <link rel="stylesheet" href="{% static 'CivisTrack_App/css/inscription.css' %}"> <!-- Assurez-vous que le chemin est correct -->
-</head>
-<body>
-    <div class="container mx-auto p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-        <h1 class="text-2xl font-bold mb-4 text-primary-color dark:text-primary-color">Inscription</h1>
-        <form method="post" id="inscription-form">
-            {% csrf_token %}
-            <div class="mb-4">
-                <label for="nom" class="block text-text-color dark:text-text-color">Nom</label>
-                {{ form.nom|add_class:"form-input" }}
+        </body>
+        </html>   {% endcomment %}
+
+{% comment %} 
+        {% load static %}
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Inscription</title>
+            <link rel="stylesheet" href="{% static 'CivisTrack_App/css/inscription.css' %}">
+        </head>
+        <body>
+            <div class="container">
+                <div class="form">
+                    <form method="post" action="{% url 'inscription' %}">
+                        {% csrf_token %}
+                        <h1>Inscription</h1>
+                        {{ form.as_p }}
+                        <button type="submit">S'inscrire</button>
+                    </form>
+                    <p class="link">Déjà inscrit ? <a href="{% url 'connexion' %}">Se connecter</a></p>
+                </div>
             </div>
-            <div class="mb-4">
-                <label for="prenom" class="block text-text-color dark:text-text-color">Prénom</label>
-                {{ form.prenom|add_class:"form-input" }}
+            <script src="{% static 'CivisTrack_App/js/inscription.js' %}"></script>
+        </body>
+        </html>
+         {% endcomment %}
+
+        {% load static %}
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            {% comment %} <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> {% endcomment %}
+            <link rel="stylesheet" href="{% static 'CivisTrack_App/css/connexion.css' %}">
+            <title>Inscription</title>
+        </head>
+        <body>
+            <div class="container">
+                <div class="form" id="form">
+                    <form method="post" action="{% url 'inscription' %}">
+                        {% csrf_token %}
+                        <h1>Inscription</h1>
+                        {{ form.as_p }}
+                        <button type="submit">S'inscrire</button>
+                    </form>
+                    <p class="link">Déjà inscrit ? <a href="{% url 'connexion' %}">Se connecter</a></p>
+                </div>
             </div>
-            <div class="mb-4">
-                <label for="email" class="block text-text-color dark:text-text-color">Email</label>
-                {{ form.email|add_class:"form-input" }}
-            </div>
-            <div class="mb-4">
-                <label for="password1" class="block text-text-color dark:text-text-color">Mot de passe</label>
-                {{ form.password1|add_class:"form-input" }}
-            </div>
-            <div class="mb-4">
-                <label for="password2" class="block text-text-color dark:text-text-color">Confirmer le mot de passe</label>
-                {{ form.password2|add_class:"form-input" }}
-            </div>
-            <button type="submit" class="btn-3d bg-primary-color text-white px-4 py-2 rounded">
-                S'inscrire
-            </button>
-        </form>
-        <p class="mt-4 text-center text-text-color dark:text-text-color">
-            Déjà un compte ? <a href="{% url 'connexion' %}" class="text-secondary-color dark:text-secondary-color">Connexion</a>
-        </p>
-    </div>
-    <script src="{% static 'CivisTrack_App/js/inscription.js' %}"></script> <!-- Assurez-vous que le chemin est correct -->
-</body>
-</html>
+            <script src="{% static 'CivisTrack_App/js/inscription.js' %}" defer></script>
+        </body>
+        </html>
+        

@@ -1,35 +1,49 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const inscriptionForm = document.getElementById('inscription-form');
-  inscriptionForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(inscriptionForm);
+// document.addEventListener('DOMContentLoaded', () => {
+//   const inscriptionForm = document.getElementById('inscription-form');
 
-    fetch('/inscription/', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert('Inscription réussie !');
-        window.location.href = '/connexion/';
-      } else {
-        alert('Erreur lors de l\'inscription : ' + data.message);
-      }
-    })
-    .catch(error => {
-      console.error('Erreur:', error);
-      alert('Une erreur est survenue. Veuillez réessayer.');
-    });
-  });
+//   inscriptionForm.addEventListener('submit', function(e) {
+//     e.preventDefault();
+
+//     // Récupération des valeurs des champs
+//     const password = document.getElementById('password').value;
+//     const confirmPassword = document.getElementById('confirm-password').value;
+
+//     // Vérification que les mots de passe correspondent
+//     if (password !== confirmPassword) {
+//       alert('Les mots de passe ne correspondent pas.');
+//       return;
+//     }
+
+//     const formData = new FormData(inscriptionForm);
+
+//     fetch('/inscription/', {
+//       method: 'POST',
+//       body: formData,
+//       headers: {
+//         'X-Requested-With': 'XMLHttpRequest',
+//         'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+//       }
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//       if (data.success) {
+//         alert('Inscription réussie !');
+//         window.location.href = '/accueil/';
+//       } else {
+//         alert('Erreur lors de l\'inscription : ' + data.message);
+//       }
+//     })
+//     .catch(error => {
+//       console.error('Erreur:', error);
+//       alert('Une erreur est survenue. Veuillez réessayer.');
+//     });
+//   });
+// });
+
+
 
   // Gestion des traductions et du thème (inchangé)
-});
+
 
 
 const translations = {
@@ -106,11 +120,28 @@ function updateThemeColors() {
   document.documentElement.style.setProperty('--bg-color', isDark ? '#1f2937' : '#f3f4f6');
   document.documentElement.style.setProperty('--text-color', isDark ? '#f3f4f6' : '#1f2937');
 }
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('form');
 
-document.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
-    body.classList.add('dark');
-  }
-  updateThemeColors();
+  // Ajoute une animation lorsque le formulaire est chargé
+  form.classList.add('animate');
+
+  // Animation de suppression de l'animation après la première exécution
+  form.addEventListener('animationend', function() {
+      form.classList.remove('animate');
+  });
+
+  // Animation de focus sur les champs du formulaire
+  const inputs = form.querySelectorAll('input, textarea, select');
+  inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+          this.style.borderColor = '#38a169'; // Couleur de bordure au focus
+          this.style.boxShadow = '0 0 0 3px rgba(56, 161, 105, 0.3)'; // Ombre portée au focus
+      });
+
+      input.addEventListener('blur', function() {
+          this.style.borderColor = ''; // Réinitialise la couleur de bordure
+          this.style.boxShadow = ''; // Réinitialise l'ombre portée
+      });
+  });
 });

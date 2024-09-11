@@ -43,12 +43,34 @@ function updateThemeColors() {
   document.documentElement.style.setProperty('--text-color', isDark ? '#f3f4f6' : '#1f2937');
 }
 
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  // Here you would typically send these credentials to your server for authentication
-  console.log('Login attempt with:', email, password);
-  // For demo purposes, let's just redirect to the home page
-  window.location.href = 'index.html';
-});
+// document.getElementById('loginForm').addEventListener('submit', function(e) {
+//   e.preventDefault();
+  
+//   const email = document.getElementById('email').value;
+//   const password = document.getElementById('password').value;
+
+//   const formData = new FormData();
+//   formData.append('email', email);
+//   formData.append('password', password);
+
+//   fetch('/connexion/', {
+//     method: 'POST',
+//     body: formData,
+//     headers: {
+//       'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+//     }
+//   })
+//   .then(response => response.json())
+//   .then(data => {
+//     if (data.success) {
+//       alert('Connexion réussie !');
+//       window.location.href = '/accueil/';
+//     } else {
+//       alert('Erreur : ' + data.message);
+//     }
+//   })
+//   .catch(error => {
+//     console.error('Erreur:', error);
+//     alert('Une erreur est survenue. Veuillez réessayer.');
+//   });
+// });

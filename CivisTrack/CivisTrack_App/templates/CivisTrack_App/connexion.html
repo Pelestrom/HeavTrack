@@ -1,12 +1,11 @@
-{% load static %}
-<html>
+{% comment %} {% load static %}
+ <html>
     <head> 
     <title>CivisTrack - Connexion</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'CivisTrack_App/css/connexion.css' %}">
-    
+    <link rel="stylesheet" href="{% static 'CivisTrack_App/css/connexion.css' %}"> 
     </head>
     <body class="bg-gray-100 bg-pattern min-h-screen flex items-center justify-center" style="background-color: var(--bg-color); color: var(--text-color);">
       <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md" style="background-color: var(--bg-color);">
@@ -37,12 +36,66 @@
             <button class="btn-3d bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" data-translate="login">
               Se connecter
             </button>
-            <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="inscription.html" data-translate="noAccount">
+            <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="{% url '' %}"" data-translate="noAccount">
               Pas de compte ? S'inscrire
             </a>
           </div>
+
+          {% if form.errors %}
+          <div class="error-messages text-red-500">
+              <ul>
+                  {% for field in form %}
+                      {% for error in field.errors %}
+                          <li>{{ field.label }} : {{ error }}</li>
+                      {% endfor %}
+                  {% endfor %}
+                  {% for error in form.non_field_errors %}
+                      <li>{{ error }}</li>
+                  {% endfor %}
+              </ul>
+          </div>
+      {% endif %}
+       
         </form>
       </div>
       <script src="{% static 'CivisTrack_App/js/connexion.js' %}" defer></script>
     </body>
-    </html>
+    </html> 
+  {% endcomment %}
+  {% load static %}
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+       <link rel="stylesheet" href="{% static 'CivisTrack_App/css/connexion.css' %
+      <title>Document</title>
+  </head>
+  <body>
+      <div class="container">
+          <div class="form">
+              <h1>Connexion</h1>
+  
+              {% if messages %}
+              <div class="error-messages">
+                  {% for message in messages %}
+                  <p class="error">{{ message }}</p>
+                  {% endfor %}
+              </div>
+              {% endif %}
+  
+              <form method="post" action="{% url 'connexion' %}">
+                  {% csrf_token %}
+                  <label for="username">Nom d'utilisateur</label>
+                  <input type="text" name="username" required>
+                  <label for="password">Mot de passe</label>
+                  <input type="password" name="password" required>
+                  <button type="submit">Se connecter</button>
+              </form>
+              <p class="link">Pas encore inscrit ? <a href="{% url 'inscription' %}">S'inscrire</a></p>
+          </div>
+      </div>
+      
+      <script src="{% static 'CivisTrack_App/js/connexion.js' %}" defer></script> 
+  </html>
