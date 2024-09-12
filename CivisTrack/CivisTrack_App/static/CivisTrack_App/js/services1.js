@@ -1,96 +1,84 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const searchInput = document.getElementById('search-input');
-  const categoryFilter = document.getElementById('category-filter');
-  const servicesList = document.getElementById('services-list');
+ 
+// // Services data retrieved from Django context
+// const services = {
+//     {% for service in services %}
+//         {{ service.id }}: {
+//             'name': '{{ service.name }}',
+//             'description': '{{ service.description }}',
+//             'horaires': '{{ service.horaires }}',
+//             'contact': '{{ service.contact }}',
+//             'email': '{{ service.email }}',
+//             'lat': {{ service.lat }},
+//             'lng': {{ service.lng }}
+//         },
+//     {% endfor %}
+// };
 
-  // Stockage des services pour le filtrage
-  let services = []; // Assurez-vous que les services sont bien chargés
+// const searchInput = document.getElementById('search-input');
+// const categoryFilter = document.getElementById('category-filter');
+// const servicesList = document.getElementById('services-list');
 
-  // Fonction pour afficher les services filtrés
-  function renderServices(filteredServices) {
-      servicesList.innerHTML = '';
-      filteredServices.forEach(service => {
-          const serviceElement = document.createElement('div');
-          serviceElement.className = 'bg-white p-4 rounded shadow cursor-pointer hover:shadow-lg transition duration-300 transform hover:-translate-y-1 hover:scale-105';
-          serviceElement.innerHTML = `
-              <h3 class="font-bold text-lg mb-2">${service.name}</h3>
-              <p class="text-sm text-gray-600">${service.category}</p>
-          `;
-          serviceElement.addEventListener('click', () => showServiceDetails(service));
-          servicesList.appendChild(serviceElement);
-      });
-  }
+// function showServiceDetails(serviceId) {
+//     const service = services[serviceId];
+    
+//     document.getElementById('service-name').textContent = service.name;
+//     document.getElementById('service-description').textContent = service.description;
+//     document.getElementById('service-horaires').textContent = service.horaires;
+//     document.getElementById('service-contact').textContent = service.contact;
+//     document.getElementById('service-email').textContent = service.email;
 
-  // Fonction pour afficher les détails du service dans un modal
-  function showServiceDetails(service) {
-      // Création du modal si nécessaire
-      const modal = document.getElementById('service-modal');
-      if (!modal) {
-          console.error('Modal not found');
-          return;
-      }
+//     const map = L.map('map').setView([service.lat, service.lng], 13);
+//     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+//     }).addTo(map);
+//     L.marker([service.lat, service.lng]).addTo(map);
 
-      modal.querySelector('h2').innerText = service.name;
-      modal.querySelector('p').innerText = `Catégorie: ${service.category}`;
-      // Autres détails...
+//     const modal = document.getElementById('service-details-modal');
+//     modal.classList.remove('hidden');
 
-      // Affichage du modal
-      modal.classList.remove('hidden');
+//     document.getElementById('get-directions').addEventListener('click', () => {
+//         if ("geolocation" in navigator) {
+//             navigator.geolocation.getCurrentPosition(position => {
+//                 const userLatLng = [position.coords.latitude, position.coords.longitude];
+//                 L.Routing.control({
+//                     waypoints: [
+//                         L.latLng(userLatLng),
+//                         L.latLng(service.lat, service.lng)
+//                     ],
+//                     routeWhileDragging: true
+//                 }).addTo(map);
+//             });
+//         } else {
+//             alert('Géolocalisation non supportée');
+//         }
+//     });
 
-      // Initialiser la carte
-      const map = L.map('map').setView([service.lat, service.lng], 13);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
+//     document.getElementById('close-modal').addEventListener('click', () => {
+//         modal.classList.add('hidden');
+//         map.remove();
+//     });
+// }
 
-      L.marker([service.lat, service.lng]).addTo(map);
+// function filterServices() {
+//     const searchTerm = searchInput.value.toLowerCase();
+//     const selectedCategory = categoryFilter.value;
+    
+//     const serviceCards = document.querySelectorAll('.service-card');
+//     serviceCards.forEach(card => {
+//         const serviceName = card.querySelector('h3').textContent.toLowerCase();
+//         const serviceCategory = card.querySelector('p').textContent;
 
-      let routingControl;
+//         const matchesSearch = serviceName.includes(searchTerm);
+//         const matchesCategory = !selectedCategory || serviceCategory === selectedCategory;
 
-      document.querySelector('.close-modal').addEventListener('click', () => {
-          modal.classList.add('hidden');
-      });
+//         if (matchesSearch && matchesCategory) {
+//             card.style.display = 'block';
+//         } else {
+//             card.style.display = 'none';
+//         }
+//     });
+// }
 
-      document.getElementById('get-directions').addEventListener('click', () => {
-          if ("geolocation" in navigator) {
-              navigator.geolocation.getCurrentPosition(position => {
-                  const userLatLng = [position.coords.latitude, position.coords.longitude];
-                  if (routingControl) {
-                      map.removeControl(routingControl);
-                  }
-                  routingControl = L.Routing.control({
-                      waypoints: [
-                          L.latLng(userLatLng),
-                          L.latLng(service.lat, service.lng)
-                      ],
-                      routeWhileDragging: true
-                  }).addTo(map);
-              });
-          } else {
-              alert('Géolocalisation non supportée');
-          }
-      });
-  }
-
-  // Fonction pour filtrer les services en fonction de la recherche et de la catégorie
-  function filterServices() {
-      const searchTerm = searchInput.value.toLowerCase();
-      const selectedCategory = categoryFilter.value;
-
-      const filteredServices = services.filter(service => {
-          const matchesSearch = service.name.toLowerCase().includes(searchTerm);
-          const matchesCategory = selectedCategory === '' || service.category === selectedCategory;
-          return matchesSearch && matchesCategory;
-      });
-
-      renderServices(filteredServices);
-  }
-
-  // Ajouter les écouteurs d'événements pour la recherche et le filtre de catégorie
-  searchInput.addEventListener('input', filterServices);
-  categoryFilter.addEventListener('change', filterServices);
-
-  // Rendre les services au chargement de la page
-  renderServices(services);
-});
-console.log(services); // Vérifiez que les services sont bien chargés
+// searchInput.addEventListener('input', filterServices);
+// categoryFilter.addEventListener('change', filterServices);
+ 

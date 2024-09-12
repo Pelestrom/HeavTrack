@@ -116,9 +116,10 @@ def accueil(request):
 
  # @login_required
  
+from django.shortcuts import render
 from .models import Service, Category
 
 def service_list(request):
     services = Service.objects.all()
     categories = Category.objects.all()
-    return render(request, 'service.html', {'services': services, 'categories': categories})
+    return render(request, 'service_list.html', {'services': services, 'categories': categories})
