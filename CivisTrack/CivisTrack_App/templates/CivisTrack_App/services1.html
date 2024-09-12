@@ -56,40 +56,51 @@
         </div>
         <div class="hidden mobile-menu">
           <ul class="">
-            <li><a href="index.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Accueil</a></li>
-            <li><a href="services.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Services</a></li>
-            <li><a href="about.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">À propos</a></li>
+            <li><a href="accueil.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Accueil</a></li>
+            <li><a href="services1.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Services</a></li>
+            <li><a href="propos.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">À propos</a></li>
             <li><a href="contact.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contact</a></li>
           </ul>
         </div>
       </nav>
-    
       <main class="container mx-auto mt-8 px-4">
         <h1 class="text-3xl font-bold mb-6">Services Publics</h1>
         
         <div class="mb-6">
-          <input type="text" id="search-input" class="w-full p-2 border rounded" placeholder="Rechercher un service...">
+            <input type="text" id="search-input" class="w-full p-2 border rounded" placeholder="Rechercher un service...">
         </div>
     
         <div class="mb-6">
-          <select id="category-filter" class="w-full p-2 border rounded">
-            <option value="">Toutes les catégories</option>
-            <option value="sante">Santé</option>
-            <option value="securite">Sécurité</option>
-            <option value="education">Éducation</option>
-            <option value="administration">Administration</option>
-            <option value="restaurants">Restaurants</option>
-            <option value="loisirs">Loisirs</option>
-            <option value="centres-commerciaux">Centres commerciaux</option>
-            <option value="hotels">Hôtels</option>
-            <option value="banques">Banques</option>
-          </select>
+            <select id="category-filter" class="w-full p-2 border rounded">
+                <option value="">Toutes les catégories</option>
+                {% for category in categories %}
+                    <option value="{{ category.name }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
         </div>
     
         <div id="services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <!-- Les services seront ajoutés ici dynamiquement -->
+            <!-- Les services seront ajoutés ici dynamiquement -->
         </div>
-      </main>
+    </main>
+    
+    <!-- Modal pour les détails du service -->
+    <div id="service-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded shadow-lg relative">
+            <button class="close-modal absolute top-2 right-2 bg-red-500 text-white p-2 rounded">X</button>
+            <h2 class="text-2xl font-bold mb-4">Service Name</h2>
+            <p><strong>Catégorie:</strong> Service Category</p>
+            <p><strong>Description:</strong> Service Description</p>
+            <p><strong>Contact:</strong> Service Contact</p>
+            <p><strong>Email:</strong> Service Email</p>
+            <button id="get-directions" class="bg-blue-500 text-white p-2 rounded mt-4">Obtenir l'itinéraire</button>
+            <div id="map" style="height: 300px; margin-top: 20px;"></div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="{% static 'CivisTrack_App/js/services1.js' %}" defer></script>
     
       <footer class="bg-gray-800 text-white py-8 mt-12">
         <div class="container mx-auto px-4">
@@ -119,9 +130,5 @@
         </div>
       </footer>
     
-      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-      <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-      <script src="{% static 'CivisTrack_App/js/services1.js' %}" defer></script>
-     
     </body>
     </html>

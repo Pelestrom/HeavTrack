@@ -110,8 +110,15 @@ def connexion(request):
             messages.error(request, 'Nom d\'utilisateur ou mot de passe incorrect.')
     return render(request, 'CivisTrack_App/connexion.html')
 
-# @login_required
+
 def accueil(request):
     return render(request, 'CivisTrack_App/accueil.html')
 
+ # @login_required
  
+from .models import Service, Category
+
+def service_list(request):
+    services = Service.objects.all()
+    categories = Category.objects.all()
+    return render(request, 'service.html', {'services': services, 'categories': categories})
