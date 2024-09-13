@@ -56,40 +56,152 @@
         </div>
         <div class="hidden mobile-menu">
           <ul class="">
-            <li><a href="index.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Accueil</a></li>
-            <li><a href="services.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Services</a></li>
-            <li><a href="about.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">À propos</a></li>
+            <li><a href="accueil.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Accueil</a></li>
+            <li><a href="services1.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Services</a></li>
+            <li><a href="propos.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">À propos</a></li>
             <li><a href="contact.html" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contact</a></li>
           </ul>
         </div>
       </nav>
-    
       <main class="container mx-auto mt-8 px-4">
         <h1 class="text-3xl font-bold mb-6">Services Publics</h1>
         
         <div class="mb-6">
-          <input type="text" id="search-input" class="w-full p-2 border rounded" placeholder="Rechercher un service...">
+            <input type="text" id="search-input" class="w-full p-2 border rounded" placeholder="Rechercher un service...">
         </div>
     
         <div class="mb-6">
-          <select id="category-filter" class="w-full p-2 border rounded">
-            <option value="">Toutes les catégories</option>
-            <option value="sante">Santé</option>
-            <option value="securite">Sécurité</option>
-            <option value="education">Éducation</option>
-            <option value="administration">Administration</option>
-            <option value="restaurants">Restaurants</option>
-            <option value="loisirs">Loisirs</option>
-            <option value="centres-commerciaux">Centres commerciaux</option>
-            <option value="hotels">Hôtels</option>
-            <option value="banques">Banques</option>
-          </select>
+            <select id="category-filter" class="w-full p-2 border rounded" onchange="filterServices()">
+                <option value="">Toutes les catégories</option>
+                {% for category in categories %}
+                    <option value="{{ category.name }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
         </div>
     
         <div id="services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <!-- Les services seront ajoutés ici dynamiquement -->
+            {% for service in services %}
+                <div class="service-card bg-white p-4 rounded shadow cursor-pointer hover:shadow-lg transition duration-300 transform hover:-translate-y-1 hover:scale-105" onclick="showServiceDetails({{ service.id }})">
+                    <h3 class="font-bold text-lg mb-2">{{ service.name }}</h3>
+                    <p class="text-sm text-gray-600">{{ service.category.name }}</p>
+                </div>
+            {% endfor %}
         </div>
-      </main>
+    </main>
+    
+    <!-- Modal for displaying service details -->
+    <div id="service-details-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-2/3 shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center">
+                <h2 id="service-name" class="text-2xl font-bold"></h2>
+                <button id="close-modal" class="text-black close-modal">&times;</button>
+            </div>
+            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <p id="service-description" class="mb-2"></p>
+                    <p class="mb-2"><strong>Horaires:</strong> <span id="service-horaires"></span></p>
+                    <p class="mb-2"><strong>Contact:</strong> <span id="service-contact"></span></p>
+                    <p class="mb-2"><strong>Email:</strong> <span id="service-email"></span></p>
+                </div>
+                <div>
+                    <div id="map" style="height: 300px;"></div>
+                    <button id="get-directions" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Obtenir l'itinéraire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    
+    <script>
+        // Services data retrieved from Django context
+        const services = {
+            {% for service in services %}
+                {{ service.id }}: {
+                    'name': '{{ service.name }}',
+                    'description': '{{ service.description }}',
+                    'horaires': '{{ service.horaires }}',
+                    'contact': '{{ service.contact }}',
+                    'email': '{{ service.email }}',
+                    'lat': {{ service.lat }},
+                    'lng': {{ service.lng }}
+                },
+            {% endfor %}
+        };
+    
+        const searchInput = document.getElementById('search-input');
+        const categoryFilter = document.getElementById('category-filter');
+        const servicesList = document.getElementById('services-list');
+    
+        function showServiceDetails(serviceId) {
+            const service = services[serviceId];
+            
+            document.getElementById('service-name').textContent = service.name;
+            document.getElementById('service-description').textContent = service.description;
+            document.getElementById('service-horaires').textContent = service.horaires;
+            document.getElementById('service-contact').textContent = service.contact;
+            document.getElementById('service-email').textContent = service.email;
+    
+            const map = L.map('map').setView([service.lat, service.lng], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            L.marker([service.lat, service.lng]).addTo(map);
+    
+            const modal = document.getElementById('service-details-modal');
+            modal.classList.remove('hidden');
+    
+            document.getElementById('get-directions').addEventListener('click', () => {
+                if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(position => {
+                        const userLatLng = [position.coords.latitude, position.coords.longitude];
+                        L.Routing.control({
+                            waypoints: [
+                                L.latLng(userLatLng),
+                                L.latLng(service.lat, service.lng)
+                            ],
+                            routeWhileDragging: true
+                        }).addTo(map);
+                    });
+                } else {
+                    alert('Géolocalisation non supportée');
+                }
+            });
+    
+            document.getElementById('close-modal').addEventListener('click', () => {
+                modal.classList.add('hidden');
+                map.remove();
+            });
+        }
+    
+        function filterServices() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach(card => {
+                const serviceName = card.querySelector('h3').textContent.toLowerCase();
+                const serviceCategory = card.querySelector('p').textContent;
+    
+                const matchesSearch = serviceName.includes(searchTerm);
+                const matchesCategory = !selectedCategory || serviceCategory === selectedCategory;
+    
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    
+        searchInput.addEventListener('input', filterServices);
+        categoryFilter.addEventListener('change', filterServices);
+    </script>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="{% static 'CivisTrack_App/js/services1.js' %}" defer></script>
     
       <footer class="bg-gray-800 text-white py-8 mt-12">
         <div class="container mx-auto px-4">
@@ -119,9 +231,5 @@
         </div>
       </footer>
     
-      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-      <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-      <script src="{% static 'CivisTrack_App/js/services1.js' %}" defer></script>
-     
     </body>
     </html>

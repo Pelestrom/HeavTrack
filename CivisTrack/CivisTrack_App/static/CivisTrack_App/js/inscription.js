@@ -1,103 +1,76 @@
- const signupForm = document.getElementById('signup-form');
-signupForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const nom = document.getElementById('nom').value;
-  const prenom = document.getElementById('prenom').value;
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  const confirmPassword = document.getElementById('confirm-password').value;
+document.addEventListener('DOMContentLoaded', function() {
 
-  if (password !== confirmPassword) {
-    alert('Les mots de passe ne correspondent pas.');
-    return;
-  }
-
-  // Ici, vous pouvez ajouter le code pour envoyer les données d'inscription à votre backend
-  console.log('Inscription soumise:', { nom, prenom, email, password });
-  alert('Inscription réussie !');
-  // Rediriger vers la page de connexion ou le tableau de bord après l'inscription
-  window.location.href = '/connexion.html';
-});
-
-const translations = {
-  'fr': {
-    'signup': 'Inscription',
-    'lastname': 'Nom',
-    'firstname': 'Prénom',
-    'email': 'Email',
-    'password': 'Mot de passe',
-    'confirmPassword': 'Confirmer le mot de passe',
-    'register': 'S\'inscrire',
-    'alreadyHaveAccount': 'Déjà un compte ?',
-    'home': 'Accueil',
-    'services': 'Services',
-    'about': 'À propos',
-    'contact': 'Contact',
-    'footerDesc': 'Localisez facilement les services publics en Côte d\'Ivoire',
-    'quickLinks': 'Liens rapides',
-    'contactUs': 'Nous contacter',
-    'followUs': 'Suivez-nous'
-  },
-  'en': {
-    'signup': 'Sign Up',
-    'lastname': 'Last Name',
-    'firstname': 'First Name',
-    'email': 'Email',
-    'password': 'Password',
-    'confirmPassword': 'Confirm Password',
-    'register': 'Register',
-    'alreadyHaveAccount': 'Already have an account?',
-    'home': 'Home',
-    'services': 'Services',
-    'about': 'About',
-    'contact': 'Contact',
-    'footerDesc': 'Easily locate public services in Côte d\'Ivoire',
-    'quickLinks': 'Quick Links',
-    'contactUs': 'Contact Us',
-    'followUs': 'Follow Us'
-  }
-};
-
-let currentLanguage = 'fr';
-
-function changeLanguage(lang) {
-  currentLanguage = lang;
-  updatePageLanguage();
-}
-
-function updatePageLanguage() {
-  document.querySelectorAll('[data-translate]').forEach(element => {
-    const key = element.getAttribute('data-translate');
-    if (translations[currentLanguage][key]) {
-      element.textContent = translations[currentLanguage][key];
-    }
+    // Changement de thème (clair/sombre)
+    const themeToggleBtn = document.createElement('button');
+    themeToggleBtn.innerText = 'Changer de thème';
+    themeToggleBtn.classList.add('fixed', 'top-4', 'right-4', 'bg-gray-700', 'text-white', 'py-2', 'px-4', 'rounded');
+    document.body.appendChild(themeToggleBtn);
+  
+    themeToggleBtn.addEventListener('click', function() {
+        document.body.classList.toggle('dark');
+        if (document.body.classList.contains('dark')) {
+            themeToggleBtn.innerText = 'Passer en mode clair';
+        } else {
+            themeToggleBtn.innerText = 'Passer en mode sombre';
+        }
+    });
+  
+    // Validation en temps réel du formulaire
+    const form = document.querySelector('form');
+    const password1Input = document.querySelector('#id_password1');
+    const password2Input = document.querySelector('#id_password2');
+    const submitBtn = document.querySelector('button[type="submit"]');
+  
+    const showError = (input, message) => {
+        const errorContainer = document.createElement('p');
+        errorContainer.classList.add('text-red-500', 'text-xs', 'italic');
+        errorContainer.textContent = message;
+        input.parentElement.appendChild(errorContainer);
+        input.classList.add('border-red-500');
+    };
+  
+    const clearErrors = () => {
+        document.querySelectorAll('.text-red-500').forEach(el => el.remove());
+        password1Input.classList.remove('border-red-500');
+        password2Input.classList.remove('border-red-500');
+    };
+  
+    const validateInput = (input) => {
+        clearErrors(); // Effacer les erreurs avant la validation
+        if (input.value.trim() === '') {
+            showError(input, 'Ce champ est requis.');
+        } else {
+            input.classList.remove('border-red-500');
+        }
+    };
+  
+    password1Input.addEventListener('input', function() {
+        validateInput(password1Input);
+    });
+  
+    password2Input.addEventListener('input', function() {
+        validateInput(password2Input);
+    });
+  
+    // Validation lors de la soumission du formulaire
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();  // Prévenir la soumission normale du formulaire
+        clearErrors();       // Effacer les erreurs précédentes
+  
+        // Validation des champs du formulaire
+        validateInput(password1Input);
+        validateInput(password2Input);
+  
+        // Validation des mots de passe
+        if (password1Input.value !== password2Input.value) {
+            showError(password2Input, 'Les mots de passe ne correspondent pas.');
+        }
+  
+        // Si tout est valide, soumettre le formulaire
+        if (document.querySelectorAll('.text-red-500').length === 0) {
+            form.submit();
+        }
+    });
+  
   });
-}
-
-document.addEventListener('DOMContentLoaded', updatePageLanguage);
-
-const body = document.body;
-const themeToggle = document.createElement('button');
-themeToggle.innerHTML = '🌓';
-themeToggle.className = 'fixed bottom-4 right-4 bg-gray-200 dark:bg-gray-800 p-2 rounded-full text-xl';
-document.body.appendChild(themeToggle);
-
-themeToggle.addEventListener('click', () => {
-  body.classList.toggle('dark');
-  updateThemeColors();
-  localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
-});
-
-function updateThemeColors() {
-  const isDark = body.classList.contains('dark');
-  document.documentElement.style.setProperty('--bg-color', isDark ? '#1f2937' : '#f3f4f6');
-  document.documentElement.style.setProperty('--text-color', isDark ? '#f3f4f6' : '#1f2937');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
-    body.classList.add('dark');
-  }
-  updateThemeColors();
-});
+  

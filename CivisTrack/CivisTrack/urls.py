@@ -13,3 +13,16 @@ urlpatterns = [
     path('propos/', views.propos, name='propos'),
     path('contact/', views.contact, name='contact'),
 ]
+# from django.contrib import admin
+# from django.urls import path
+# from CivisTrack_App import views
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('inscription/', views.inscription, name='inscription'),
+#     path('connexion/', views.connexion, name='connexion'),
+#     path('accueil/', views.accil, name='accueil'),
+#     path('', views.accueil, name='accueil'),
+ 
+
+# ]

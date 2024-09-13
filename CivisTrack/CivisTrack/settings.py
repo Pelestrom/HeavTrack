@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-nk@78=a_dtdkq*!gbmg^2fgxxk2plfb2lv+nb-hfxa=ppqtuf5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG =  True
 
 ALLOWED_HOSTS = []
 
@@ -64,7 +64,17 @@ WSGI_APPLICATION = 'CivisTrack.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+      'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'CIVISTRACK',
+        'USER': 'postgres',
+        'PASSWORD': '0140087183',
+        'HOST': 'localhost',  # ou l'adresse de ton serveur si c'est un serveur distant
+        'PORT': '5432',       # le port par défaut de PostgreSQL
+ 
+    }
+          ,
+ 'sqlite': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
@@ -88,6 +98,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# AUTH_USER_MODEL = 'CivisTrack_App.CustomUser'
 
 
 # Internationalization

@@ -1,54 +1,98 @@
-const translations = {
-  'fr': {
-    'login': 'Connexion',
-    'email': 'Adresse e-mail',
-    'password': 'Mot de passe',
-    'rememberMe': 'Se souvenir de moi',
-    'forgotPassword': 'Mot de passe oublié ?',
-    'noAccount': 'Pas de compte ? S\'inscrire'
-  },
-  'en': {
-    'login': 'Login',
-    'email': 'Email address',
-    'password': 'Password',
-    'rememberMe': 'Remember me',
-    'forgotPassword': 'Forgot password?',
-    'noAccount': 'No account? Sign up'
-  }
-};
+document.addEventListener('DOMContentLoaded', function() {
 
-let currentLanguage = 'fr';
+  // Changement de thème (clair/sombre)
+  const themeToggleBtn = document.createElement('button');
+  themeToggleBtn.innerText = 'Changer de thème';
+  themeToggleBtn.classList.add('fixed', 'top-4', 'right-4', 'bg-gray-700', 'text-white', 'py-2', 'px-4', 'rounded');
+  document.body.appendChild(themeToggleBtn);
 
-function updatePageLanguage() {
-  document.querySelectorAll('[data-translate]').forEach(element => {
-    const key = element.getAttribute('data-translate');
-    if (translations[currentLanguage][key]) {
-      element.textContent = translations[currentLanguage][key];
-    }
+  themeToggleBtn.addEventListener('click', function() {
+      document.body.classList.toggle('dark');
+      if (document.body.classList.contains('dark')) {
+          themeToggleBtn.innerText = 'Passer en mode clair';
+      } else {
+          themeToggleBtn.innerText = 'Passer en mode sombre';
+      }
   });
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-  updatePageLanguage();
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
-    document.body.classList.add('dark');
-  }
-  updateThemeColors();
-});
+  // Validation en temps réel du formulaire
+  const form = document.querySelector('form');
+  const usernameInput = document.querySelector('#username');
+  const passwordInput = document.querySelector('#password');
+  const submitBtn = document.querySelector('button[type="submit"]');
 
-function updateThemeColors() {
-  const isDark = document.body.classList.contains('dark');
-  document.documentElement.style.setProperty('--bg-color', isDark ? '#1f2937' : '#f3f4f6');
-  document.documentElement.style.setProperty('--text-color', isDark ? '#f3f4f6' : '#1f2937');
-}
+  const showError = (input, message) => {
+      const errorContainer = document.createElement('p');
+      errorContainer.classList.add('text-red-500', 'text-xs', 'italic');
+      errorContainer.textContent = message;
+      input.parentElement.appendChild(errorContainer);
+      input.classList.add('border-red-500');
+  };
 
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  // Here you would typically send these credentials to your server for authentication
-  console.log('Login attempt with:', email, password);
-  // For demo purposes, let's just redirect to the home page
-  window.location.href = 'index.html';
+  const clearErrors = () => {
+      document.querySelectorAll('.text-red-500').forEach(el => el.remove());
+      usernameInput.classList.remove('border-red-500');
+      passwordInput.classList.remove('border-red-500');
+  };
+
+  const validateInput = (input) => {
+      clearErrors(); // Effacer les erreurs avant la validation
+      if (input.value.trim() === '') {
+          showError(input, 'Ce champ est requis.');
+      } else {
+          input.classList.remove('border-red-500');
+      }
+  };
+
+  usernameInput.addEventListener('input', function() {
+      validateInput(usernameInput);
+  });
+
+  passwordInput.addEventListener('input', function() {
+      validateInput(passwordInput);
+  });
+
+  // Validation lors de la soumission du formulaire
+  form.addEventListener('submit', function(e) {
+      e.preventDefault();  // Prévenir la soumission normale du formulaire
+      clearErrors();       // Effacer les erreurs précédentes
+
+      let hasErrors = false;
+
+      if (usernameInput.value.trim() === '') {
+          showError(usernameInput, 'Ce champ est requis.');
+          hasErrors = true;
+      }
+
+      if (passwordInput.value.trim() === '') {
+          showError(passwordInput, 'Ce champ est requis.');
+          hasErrors = true;
+      }
+
+      if (!hasErrors) {
+          form.submit();  // Soumettre le formulaire si pas d'erreurs
+      }
+  });
+
+  // Animation sur le bouton de soumission
+  submitBtn.addEventListener('mouseover', function() {
+      submitBtn.classList.add('hover:bg-blue-600');
+      submitBtn.style.transition = 'transform 0.2s';
+      submitBtn.style.transform = 'scale(1.05)';
+  });
+
+  submitBtn.addEventListener('mouseout', function() {
+      submitBtn.style.transform = 'scale(1)';
+  });
+
+  // Ajouter une animation d'entrée pour le formulaire
+  const formContainer = document.querySelector('.bg-white');
+  formContainer.style.opacity = '0';
+  formContainer.style.transform = 'translateY(20px)';
+  setTimeout(() => {
+      formContainer.style.transition = 'all 0.5s ease';
+      formContainer.style.opacity = '1';
+      formContainer.style.transform = 'translateY(0)';
+  }, 300);
+
 });
