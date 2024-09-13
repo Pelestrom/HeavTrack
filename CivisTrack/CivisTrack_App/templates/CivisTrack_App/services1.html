@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="{% static 'CivisTrack_App/css/services1.css' %}">
    
@@ -26,9 +28,9 @@
               </div>
             </div>
             <div class="hidden md:flex items-center space-x-3 ">
-              <a href="index.html" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300" data-translate="home">Accueil</a>
-              <a href="services.html" id="servicesButton" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300" data-translate="services">Services</a>
-              <a href="about.html" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300" data-translate="about">À propos</a>
+              <a href="accueil.html" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300" data-translate="home">Accueil</a>
+              <a href="services1.html" id="servicesButton" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300" data-translate="services">Services</a>
+              <a href="propos.html" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300" data-translate="about">À propos</a>
               <a href="contact.html" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300" data-translate="contact">Contact</a>
               <div class="relative">
                 <button id="languageToggle" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300">FR</button>
@@ -63,148 +65,197 @@
           </ul>
         </div>
       </nav>
-      <main class="container mx-auto mt-8 px-4">
+      <main class="container mx-auto mt-8 px-4" x-data="{
+        services: JSON.parse(document.getElementById('services-data').textContent),
+        categories: JSON.parse(document.getElementById('categories-data').textContent),
+        searchQuery: '',
+        activeCategory: 'all',
+        filteredServices() {
+            const searchQuery = this.searchQuery.toLowerCase();
+            const activeCategory = this.activeCategory;
+            return this.services.filter(service => {
+                const matchesSearch = service.name.toLowerCase().includes(searchQuery);
+                const matchesCategory = activeCategory === 'all' || service.category_id === this.categories.find(c => c.name === activeCategory)?.id;
+                return matchesSearch && matchesCategory;
+            });
+        }
+    }">
         <h1 class="text-3xl font-bold mb-6">Services Publics</h1>
-        
-        <!-- Champ de recherche -->
+
+        <!-- Barre de recherche -->
         <div class="mb-6">
-            <input type="text" id="search-input" class="w-full p-2 border rounded" placeholder="Rechercher un service...">
+            <input x-model="searchQuery" type="text" placeholder="Rechercher un service..." class="w-full p-2 border rounded">
         </div>
-    
-        <!-- Filtre par catégorie -->
-        <div class="mb-6">
-            <select id="category-filter" class="w-full p-2 border rounded">
-                <option value="">Toutes les catégories</option>
-                <!-- Les catégories seront dynamiquement générées à partir de la base de données -->
-            </select>
+
+        <!-- Boutons de filtre par catégorie -->
+        <div class="mb-6 flex flex-wrap gap-4">
+            <!-- Bouton pour toutes les catégories -->
+            <button @click="activeCategory = 'all'" :class="{ 'bg-blue-500 text-white': activeCategory === 'all', 'bg-gray-200 text-gray-700': activeCategory !== 'all' }" class="category-button px-6 py-3 rounded-full flex items-center space-x-2 shadow-md hover:bg-blue-600 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16m-7 4h7"></path>
+                </svg>
+                <span>Toutes les catégories</span>
+            </button>
+
+            <!-- Boutons pour les autres catégories -->
+            <template x-for="category in categories">
+                <button @click="activeCategory = category.name" :class="{ 'bg-blue-500 text-white': activeCategory === category.name, 'bg-gray-200 text-gray-700': activeCategory !== category.name }" class="category-button px-6 py-3 rounded-full flex items-center space-x-2 shadow-md hover:bg-blue-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" x-html="category.icon"></svg>
+                    <span x-text="category.name.charAt(0).toUpperCase() + category.name.slice(1)"></span>
+                </button>
+            </template>
         </div>
-    
+
         <!-- Liste des services -->
         <div id="services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- Les services seront ajoutés ici dynamiquement -->
+            <template x-for="service in filteredServices()">
+                <div class="bg-white p-4 rounded shadow cursor-pointer hover:shadow-lg transition duration-300 transform hover:-translate-y-1 hover:scale-105">
+                    <h3 class="font-bold text-lg mb-2" x-text="service.name"></h3>
+                </div>
+            </template>
         </div>
     </main>
-    
-    <!-- Modal pour afficher les détails d'un service -->
-    <div id="service-details-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
-        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-2/3 shadow-lg rounded-md bg-white">
-            <div class="flex justify-between items-center">
-                <h2 id="service-name" class="text-2xl font-bold"></h2>
-                <button id="close-modal" class="text-black close-modal">&times;</button>
-            </div>
-            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <p id="service-description" class="mb-2"></p>
-                    <p class="mb-2"><strong>Horaires:</strong> <span id="service-horaires"></span></p>
-                    <p class="mb-2"><strong>Contact:</strong> <span id="service-contact"></span></p>
-                    <p class="mb-2"><strong>Email:</strong> <span id="service-email"></span></p>
-                </div>
-                <div>
-                    <div id="map" style="height: 300px;"></div>
-                    <button id="get-directions" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Obtenir l'itinéraire</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Script pour gérer la carte et la récupération des services -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+
+    <script id="services-data" type="application/json">
+        {{ services_data|safe }}
+    </script>
+    <script id="categories-data" type="application/json">
+        {{ categories_data|safe }}
+    </script>
     <script>
-        // JavaScript qui récupère les services depuis la base de données sera ajouté ici
-    </script>
-    
-  
-    
-    {% comment %} <script>
-        // Services data retrieved from Django context
-        const services = {
-            {% for service in services %}
-                {{ service.id }}: {
-                    'name': '{{ service.name }}',
-                    'description': '{{ service.description }}',
-                    'horaires': '{{ service.horaires }}',
-                    'contact': '{{ service.contact }}',
-                    'email': '{{ service.email }}',
-                    'lat': {{ service.lat }},
-                    'lng': {{ service.lng }}
-                },
-            {% endfor %}
-        };
-    
-        const searchInput = document.getElementById('search-input');
-        const categoryFilter = document.getElementById('category-filter');
-        const servicesList = document.getElementById('services-list');
-    
-        function showServiceDetails(serviceId) {
-            const service = services[serviceId];
+        document.addEventListener('DOMContentLoaded', () => {
+            const services = JSON.parse(document.getElementById('services-data').textContent);
+            const categories = JSON.parse(document.getElementById('categories-data').textContent);
+
+            function renderServices(filteredServices) {
+                const servicesList = document.getElementById('services-list');
+                servicesList.innerHTML = '';
+                filteredServices.forEach(service => {
+                    const serviceElement = document.createElement('div');
+                    serviceElement.className = 'bg-white p-4 rounded shadow cursor-pointer hover:shadow-lg transition duration-300 transform hover:-translate-y-1 hover:scale-105';
+                    serviceElement.innerHTML = `
+                        <h3 class="font-bold text-lg mb-2">${service.name}</h3>
+                    `;
+                    serviceElement.addEventListener('click', () => showServiceDetails(service));
+                    servicesList.appendChild(serviceElement);
+                });
+            }
             
-            document.getElementById('service-name').textContent = service.name;
-            document.getElementById('service-description').textContent = service.description;
-            document.getElementById('service-horaires').textContent = service.horaires;
-            document.getElementById('service-contact').textContent = service.contact;
-            document.getElementById('service-email').textContent = service.email;
-    
-            const map = L.map('map').setView([service.lat, service.lng], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-            L.marker([service.lat, service.lng]).addTo(map);
-    
-            const modal = document.getElementById('service-details-modal');
-            modal.classList.remove('hidden');
-    
-            document.getElementById('get-directions').addEventListener('click', () => {
-                if ("geolocation" in navigator) {
-                    navigator.geolocation.getCurrentPosition(position => {
-                        const userLatLng = [position.coords.latitude, position.coords.longitude];
-                        L.Routing.control({
-                            waypoints: [
-                                L.latLng(userLatLng),
-                                L.latLng(service.lat, service.lng)
-                            ],
-                            routeWhileDragging: true
-                        }).addTo(map);
-                    });
-                } else {
-                    alert('Géolocalisation non supportée');
-                }
-            });
-    
-            document.getElementById('close-modal').addEventListener('click', () => {
-                modal.classList.add('hidden');
-                map.remove();
-            });
-        }
-    
-        function filterServices() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const selectedCategory = categoryFilter.value;
-            
-            const serviceCards = document.querySelectorAll('.service-card');
-            serviceCards.forEach(card => {
-                const serviceName = card.querySelector('h3').textContent.toLowerCase();
-                const serviceCategory = card.querySelector('p').textContent;
-    
-                const matchesSearch = serviceName.includes(searchTerm);
-                const matchesCategory = !selectedCategory || serviceCategory === selectedCategory;
-    
-                if (matchesSearch && matchesCategory) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-    
-        searchInput.addEventListener('input', filterServices);
-        categoryFilter.addEventListener('change', filterServices);
+            function showServiceDetails(service) {
+                const selectedCategory = categories.find(category => category.id === service.category_id);
+                const categoryName = selectedCategory ? selectedCategory.name : 'Unknown';
+
+                const detailsHtml = `
+                    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="service-modal">
+                        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-2/3 shadow-lg rounded-md bg-white animate-fade-in">
+                            <div class="flex justify-between items-center">
+                                <h2 class="text-2xl font-bold">${service.name}</h2>
+                                <button class="text-black close-modal">&times;</button>
+                            </div>
+                            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="mb-2">${service.description}</p>
+                                    <p class="mb-2"><strong>Horaires:</strong> ${service.horaires}</p>
+                                    <p class="mb-2">
+                                        <strong>Contact:</strong> ${service.contact}
+                                        <svg class="copy-icon inline-block w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" onclick="copyToClipboard('${service.contact}')">
+                                            <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path>
+                                            <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path>
+                                        </svg>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Email:</strong> ${service.email}
+                                        <svg class="copy-icon inline-block w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" onclick="copyToClipboard('${service.email}')">
+                                            <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path>
+                                            <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path>
+                                        </svg>
+                                    </p>
+                                </div>
+                                <div>
+                                    <div id="map" style="height: 300px;"></div>
+                                    <button id="get-directions" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110">
+                                        Obtenir l'itinéraire
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.body.insertAdjacentHTML('beforeend', detailsHtml);
+
+                const map = L.map('map').setView([service.lat, service.lng], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                const serviceMarker = L.marker([service.lat, service.lng]).addTo(map);
+                let routingControl;
+
+                document.querySelector('.close-modal').addEventListener('click', () => {
+                    document.getElementById('service-modal').remove();
+                });
+
+                document.getElementById('get-directions').addEventListener('click', () => {
+                    if ("geolocation" in navigator) {
+                        navigator.geolocation.getCurrentPosition(position => {
+                            const userLatLng = [position.coords.latitude, position.coords.longitude];
+                            if (routingControl) {
+                                map.removeControl(routingControl);
+                            }
+                            routingControl = L.Routing.control({
+                                waypoints: [
+                                    L.latLng(userLatLng),
+                                    L.latLng(service.lat, service.lng)
+                                ],
+                                routeWhileDragging: true
+                            }).addTo(map);
+                        });
+                    } else {
+                        alert('Géolocalisation non supportée');
+                    }
+                });
+            }
+
+            function copyToClipboard(text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Texte copié !');
+                });
+            }
+
+            function filterServices() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedCategory = categoryFilter.value;
+
+                const filteredServices = services.filter(service => {
+                    const matchesSearch = service.name.toLowerCase().includes(searchTerm);
+                    const matchesCategory = !selectedCategory || service.category_id === parseInt(selectedCategory);
+                    return matchesSearch && matchesCategory;
+                });
+
+                renderServices(filteredServices);
+            }
+
+            const searchInput = document.getElementById('search-input');
+            const categoryFilter = document.getElementById('category-filter');
+
+            searchInput.addEventListener('input', filterServices);
+            categoryFilter.addEventListener('change', filterServices);
+
+            renderServices(services);  // Initial render
+        });
     </script>
-     {% endcomment %}
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></s>
-    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-    <script src="{% static 'CivisTrack_App/js/services1.js' %}" defer></script>
+   
     
+    
+
+
+
+
+
+
+
+
       <footer class="bg-gray-800 text-white py-8 mt-12">
         <div class="container mx-auto px-4">
           <div class="flex flex-wrap justify-between">
@@ -233,5 +284,8 @@
         </div>
       </footer>
     
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+      <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+      <script src="{% static 'CivisTrack_App/js/services1.js' %}" defer></script>
     </body>
     </html>

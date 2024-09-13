@@ -33,4 +33,12 @@ body {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
  
+        /* Animation des boutons */
+        .category-button {
+          transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .category-button:hover {
+            transform: scale(1.1);
+        }
