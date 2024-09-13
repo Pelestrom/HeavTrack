@@ -1,84 +1,3 @@
-# # from django.shortcuts import render, redirect
-# # from django.contrib.auth import login, authenticate
-# # from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-# # from django.contrib import messages
-# # from .forms import CustomUserCreationForm, CustomAuthenticationForm
-
-# # # views.py
- 
-# # def inscription(request):
-# #     if request.method == 'POST':
-# #         form = CustomUserCreationForm(request.POST)
-# #         if form.is_valid():
-# #             user = form.save()
-# #             login(request, user)
-# #             messages.success(request, 'Inscription réussie!')
-# #             return redirect('accueil')  # Assurez-vous que 'accueil' est une URL valide
-# #     else:
-# #         form = CustomUserCreationForm()
-# #     return render(request, 'inscription.html', {'form': form})
-
-
-# # def connexion(request):
-# #     if request.method == 'POST':
-# #         form = CustomAuthenticationForm(request, data=request.POST)
-# #         if form.is_valid():
-# #             user = form.get_user()
-# #             login(request, user)
-# #             messages.success(request, 'Connexion réussie!')
-# #             return redirect('accueil')  # Remplacez 'home' par le nom de votre page d'accueil
-# #     else:
-# #         form = CustomAuthenticationForm()
-# #     return render(request, 'connexion.html', {'form': form})
-
-
- 
-# # def connexion(request):
-# #     return render(request, 'CivisTrack_App/connexion.html', {})
-
-# # def inscription(request):
-# #     return render(request, 'CivisTrack_App/inscription.html', {})
-
-
-
-
-# # def accueil(request):
-# #     return render(request, 'CivisTrack_App/accueil.html')  # 'index.html' est le fichier du template d'accueil
-
-
-
-def services1(request):
-     return render(request, 'CivisTrack_App/services1.html')
- 
-def services2(request):
-    return render(request, 'CivisTrack_App/services2.html')
-
-def propos(request):
-    return render(request, 'CivisTrack_App/propos.html')
-
-def contact(request):
-    return render(request, 'CivisTrack_App/contact.html')
-# from django.shortcuts import render
-# from django.contrib.auth import login
-# from .forms import CustomUserCreationForm, CustomAuthenticationForm
-
-# def register(request):
-#     form = CustomUserCreationForm()
-#     return render(request, 'CivisTrack_App/register.html', {'form': form})
-
-# def login_view(request):
-#     form = CustomAuthenticationForm()
-#     return render(request, 'CivisTrack_App/login.html', {'form': form})
-
-# def home(request):
-#     return render(request, 'CivisTrack_App/home.html')
-
-
-# def login(request):
-#      return render(request, 'CivisTrack_App/login.html', {})
-
-# def register(request):
-#    return render(request, 'CivisTrack_App/register.html', {})
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm 
@@ -116,10 +35,48 @@ def accueil(request):
 
  # @login_required
  
-from django.shortcuts import render
-from .models import Service, Category
+# from django.shortcuts import render
+# from .models import Service, Category
 
-def service_list(request):
+# def service_list(request):
+#     services = Service.objects.all()
+#     categories = Category.objects.all()
+#     return render(request, 'service_list.html', {'services': services, 'categories': categories})
+
+from django.http import JsonResponse
+from .models import Service
+
+def services_list(request):
     services = Service.objects.all()
-    categories = Category.objects.all()
-    return render(request, 'service_list.html', {'services': services, 'categories': categories})
+    services_data = [
+        {
+            'id': service.id,
+            'name': service.name,
+            'category': service.category,
+            'description': service.description,
+            'horaires': service.horaires,
+            'contact': service.contact,
+            'email': service.email,
+            'lat': service.lat,
+            'lng': service.lng
+        }
+        for service in services
+    ]
+    return JsonResponse(services_data, safe=False)
+
+
+
+ 
+
+def services1(request):
+     return render(request, 'CivisTrack_App/services1.html')
+ 
+def services2(request):
+    return render(request, 'CivisTrack_App/services2.html')
+
+def propos(request):
+    return render(request, 'CivisTrack_App/propos.html')
+
+def contact(request):
+    return render(request, 'CivisTrack_App/contact.html')
+ 

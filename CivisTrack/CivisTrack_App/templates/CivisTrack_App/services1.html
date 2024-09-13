@@ -66,30 +66,26 @@
       <main class="container mx-auto mt-8 px-4">
         <h1 class="text-3xl font-bold mb-6">Services Publics</h1>
         
+        <!-- Champ de recherche -->
         <div class="mb-6">
             <input type="text" id="search-input" class="w-full p-2 border rounded" placeholder="Rechercher un service...">
         </div>
     
+        <!-- Filtre par catégorie -->
         <div class="mb-6">
-            <select id="category-filter" class="w-full p-2 border rounded" onchange="filterServices()">
+            <select id="category-filter" class="w-full p-2 border rounded">
                 <option value="">Toutes les catégories</option>
-                {% for category in categories %}
-                    <option value="{{ category.name }}">{{ category.name }}</option>
-                {% endfor %}
+                <!-- Les catégories seront dynamiquement générées à partir de la base de données -->
             </select>
         </div>
     
+        <!-- Liste des services -->
         <div id="services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {% for service in services %}
-                <div class="service-card bg-white p-4 rounded shadow cursor-pointer hover:shadow-lg transition duration-300 transform hover:-translate-y-1 hover:scale-105" onclick="showServiceDetails({{ service.id }})">
-                    <h3 class="font-bold text-lg mb-2">{{ service.name }}</h3>
-                    <p class="text-sm text-gray-600">{{ service.category.name }}</p>
-                </div>
-            {% endfor %}
+            <!-- Les services seront ajoutés ici dynamiquement -->
         </div>
     </main>
     
-    <!-- Modal for displaying service details -->
+    <!-- Modal pour afficher les détails d'un service -->
     <div id="service-details-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
         <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-2/3 shadow-lg rounded-md bg-white">
             <div class="flex justify-between items-center">
@@ -111,10 +107,16 @@
         </div>
     </div>
     
+    <!-- Script pour gérer la carte et la récupération des services -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-    
     <script>
+        // JavaScript qui récupère les services depuis la base de données sera ajouté ici
+    </script>
+    
+  
+    
+    {% comment %} <script>
         // Services data retrieved from Django context
         const services = {
             {% for service in services %}
@@ -198,8 +200,8 @@
         searchInput.addEventListener('input', filterServices);
         categoryFilter.addEventListener('change', filterServices);
     </script>
-    
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+     {% endcomment %}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></s>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="{% static 'CivisTrack_App/js/services1.js' %}" defer></script>
     
