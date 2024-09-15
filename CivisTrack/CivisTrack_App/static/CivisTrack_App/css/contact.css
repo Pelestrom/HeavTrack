@@ -95,4 +95,14 @@ body {
 .contact-info-item:hover {
   transform: translateX(10px);
 }
- 
+/* Light theme */
+body.light {
+  background-color: #f0f0f0;
+  color: #000;
+}
+
+/* Dark theme */
+body.dark {
+  background-color: #333;
+  color: #fff;
+}

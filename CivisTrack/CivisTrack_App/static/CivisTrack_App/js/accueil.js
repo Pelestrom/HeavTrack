@@ -137,3 +137,54 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Apply stored preferences
+  applyTheme();
+  applyLanguage();
+
+  // Theme switcher
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+      const currentTheme = localStorage.getItem('theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      applyTheme();
+  });
+
+  // Language switcher
+  document.getElementById('language-toggle').addEventListener('click', () => {
+      const currentLanguage = localStorage.getItem('language');
+      const newLanguage = currentLanguage === 'fr' ? 'en' : 'fr';
+      localStorage.setItem('language', newLanguage);
+      applyLanguage();
+  });
+});
+
+function applyTheme() {
+  const theme = localStorage.getItem('theme') || 'light';
+  document.body.className = theme;
+}
+
+function applyLanguage() {
+  const language = localStorage.getItem('language') || 'fr';
+  // Assuming you have a function to handle translations
+  translatePage(language);
+}
+
+function translatePage(language) {
+  // Placeholder function for translation
+  // You should replace this with actual translation logic
+  const translations = {
+      'en': {
+          'theme-toggle': 'Switch to Dark Mode',
+          'language-toggle': 'Switch to French'
+      },
+      'fr': {
+          'theme-toggle': 'Passer en mode sombre',
+          'language-toggle': 'Passer en anglais'
+      }
+  };
+  document.getElementById('theme-toggle').textContent = translations[language]['theme-toggle'];
+  document.getElementById('language-toggle').textContent = translations[language]['language-toggle'];
+}

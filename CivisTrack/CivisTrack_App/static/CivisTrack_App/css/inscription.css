@@ -76,3 +76,14 @@ form div {
 .error-messages ul {
   padding-left: 1rem; /* Espacement à gauche des éléments de la liste d'erreurs */
 }
+/* Light theme */
+body.light {
+  background-color: #f0f0f0;
+  color: #000;
+}
+
+/* Dark theme */
+body.dark {
+  background-color: #333;
+  color: #fff;
+}
