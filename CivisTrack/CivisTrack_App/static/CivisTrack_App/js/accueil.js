@@ -1,12 +1,12 @@
-const btn = document.querySelector("button.mobile-menu-button");
-const menu = document.querySelector(".mobile-menu");
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.querySelector('.mobile-menu');
 
-btn.addEventListener("click", () => {
-  menu.classList.toggle("hidden");
+mobileMenuButton.addEventListener('click', function () {
+  mobileMenu.classList.toggle('active');
+  mobileMenu.classList.toggle('hidden'); // Assurez-vous que vous utilisez cette classe dans votre CSS
 });
 
 var map;
-
 function initMap() {
   map = L.map('map').setView([0, 0], 13); // Défini une vue initiale
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -30,7 +30,6 @@ function initMap() {
 
   map.on('locationerror', onLocationError);
 }
-
 window.addEventListener('load', initMap);
 
 const languageToggle = document.getElementById('languageToggle');
@@ -107,39 +106,36 @@ function updatePageLanguage() {
 }
 
 document.addEventListener('DOMContentLoaded', updatePageLanguage);
+// Theme switching
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
 
+function toggleTheme() {
+  body.classList.toggle('dark');
+  const isDark = body.classList.contains('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  updateThemeToggleIcon();
+}
+function updateThemeToggleIcon() {
+  const isDark = body.classList.contains('dark');
+  themeToggle.innerHTML = isDark
+    ? '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 theme-icon moon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>'
+    : '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 theme-icon sun" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>';
+}
+
+// Initialize theme
+function applyStoredTheme() {
+  const storedTheme = localStorage.getItem('theme');
+  console.log('Stored theme:', storedTheme); // For debugging
+  if (storedTheme === 'dark') {
+    body.classList.add('dark');
+  }
+  updateThemeToggleIcon();
+}
+
+// Event listener for DOMContentLoaded
+document.addEventListener('DOMContentLoaded', applyStoredTheme);
+
+// Event listener for theme toggle button
+themeToggle.addEventListener('click', toggleTheme);
  
-
-    // Theme switching
-    const themeToggle = document.getElementById('themeToggle');
-    const body = document.body;
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      updateThemeToggleIcon();
-    }
-    
-
-    function updateThemeToggleIcon() {
-      const isDark = document.body.classList.contains('dark');
-      themeToggle.innerHTML = isDark
-        ? '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>'
-        : '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>';
-    }
-
-    // Initialize theme
-    function applyStoredTheme() {
-      const storedTheme = localStorage.getItem('theme');
-      if (storedTheme === 'dark') {
-        document.body.classList.add('dark');
-        updateThemeToggleIcon();
-      }
-    }
-    
-    document.addEventListener('DOMContentLoaded', applyStoredTheme);
-    
-    // Add event listener to theme toggle button
-    themeToggle.addEventListener('click', toggleTheme);
-
-    

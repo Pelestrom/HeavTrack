@@ -1,4 +1,5 @@
 {% load static %}
+ 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -16,7 +17,6 @@
   <!-- Inclusion de Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 </head>
 <body class="bg-gray-100 bg-pattern min-h-screen" style="background-color: var(--bg-color); color: var(--text-color);" id="themeBody">
   <nav class="bg-white shadow-lg" style="background-color: var(--bg-color); color: var(--text-color);">
@@ -72,46 +72,46 @@
         </div>
   
         <div class="md:hidden flex items-center">
-          <button class="outline-none mobile-menu-button relative">
+          <button id="mobile-menu-button" class="outline-none mobile-menu-button relative">
             <svg class="w-8 h-8 text-gray-700 hover:text-blue-600 transition duration-300 ease-in-out" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
               <path d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
           </button>
         </div>
-        </div>
-        </div>
         
-        <!-- Mobile Menu -->
-        <div class="hidden mobile-menu bg-white shadow-lg rounded-lg absolute top-16 right-0 w-48 mt-2 transition-transform duration-300 ease-in-out transform translate-y-[-10px]">
-          <ul class="flex flex-col">
-            <li class="border-b border-gray-200">
-              <a href="{% url 'accueil' %}" class="block text-sm px-4 py-3 text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center space-x-2" data-translate="home">
-                <i class="fas fa-home text-blue-500"></i>
-                <span>Accueil</span>
-              </a>
-            </li>
-            <li class="border-b border-gray-200">
-              <a href="{% url 'services1' %}" class="block text-sm px-4 py-3 text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center space-x-2" data-translate="services">
-                <i class="fas fa-cogs text-blue-500"></i>
-                <span>Services</span>
-              </a>
-            </li>
-            <li class="border-b border-gray-200">
-              <a href="{% url 'propos' %}" class="block text-sm px-4 py-3 text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center space-x-2" data-translate="about">
-                <i class="fas fa-info-circle text-blue-500"></i>
-                <span>À propos</span>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'contact' %}" class="block text-sm px-4 py-3 text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center space-x-2" data-translate="contact">
-                <i class="fas fa-envelope text-blue-500"></i>
-                <span>Contact</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        
+      </div>
+    </div>
+      <!-- Mobile Menu -->
+      <div class="mobile-menu bg-white shadow-lg rounded-lg absolute top-16 right-0 w-60 mt-2 transition-transform duration-300 ease-in-out transform translate-y-[-10px]">
+        <ul class="flex flex-col">
+          <li class="border-b border-gray-200">
+            <a href="{% url 'accueil' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="home">
+              <i class="fas fa-home text-blue-500"></i>
+              <span>Accueil</span>
+            </a>
+          </li>
+          <li class="border-b border-gray-200">
+            <a href="{% url 'services1' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="services">
+              <i class="fas fa-cogs text-blue-500"></i>
+              <span>Services</span>
+            </a>
+          </li>
+          <li class="border-b border-gray-200">
+            <a href="{% url 'propos' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="about">
+              <i class="fas fa-info-circle text-blue-500"></i>
+              <span>À propos</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'contact' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="contact">
+              <i class="fas fa-envelope text-blue-500"></i>
+              <span>Contact</span>
+            </a>
+          </li>
+        </ul>
+      </div>
   </nav>
+
   <main class="container mx-auto mt-8 px-4">
     <section class="text-center mb-12">
       <h1 class="text-4xl font-bold mb-4 text-gray-800 text-white" data-translate="welcome">Bienvenue sur CivisTrack</h1>
@@ -121,6 +121,7 @@
         <a href="{% url 'connexion' %}" class="btn-3d bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" data-translate="login">Se connecter</a>
       </div>
     </section>
+
     <section class="mb-12">
       <h2 class="text-2xl font-semibold mb-4" data-translate="nearbyServices">Services publics à proximité</h2>
       <div id="map" class="rounded-lg shadow-lg"></div>
@@ -189,7 +190,9 @@
       </div>
     </div>
   </footer>
-
+  <script>
+    
+  </script>
     <!-- Inclusion de fichiers JS externes -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="{% static 'CivisTrack_App/js/accueil.js' %}" defer></script>  

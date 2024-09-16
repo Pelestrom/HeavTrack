@@ -10,35 +10,80 @@
     --bg-color: #1f2937;
     --text-color: #f3f4f6;
   }
-      /* Style pour le menu mobile */
-      .mobile-menu {
-        display: none; /* Caché par défaut */
-      }
-      .mobile-menu li {
-        display: flex;
-        align-items: center;
-      }
-      .mobile-menu i {
-        margin-right: 0.75rem; /* Espace entre l'icône et le texte */
-      }
+ 
+/* Style de base pour les icônes */
+.theme-icon {
+  transition: color 0.3s ease;
+}
+
+/* Survol pour le thème sombre (bleu) */
+body:not(.dark) .theme-icon.sun:hover {
+  color:  blue;
+}
+
+/* Survol pour le thème clair (bleu) */
+body.dark .theme-icon.moon:hover {
+  color: orange;
+}
+
+.mobile-menu.hidden {
+  display: none;
+}
+
+.mobile-menu.active {
+  display: block;
+}
+
+
+  @media (max-width: 768px) {
+    .mobile-menu {
+      display: block;
+    }
+  }
+
+  .mobile-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-menu li {
+    position: relative;
+  }
+
+  .mobile-menu a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #4a4a4a;
+    padding: 0.75rem 1rem; /* Augmenter le padding pour décaler les liens */
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .mobile-menu a:hover {
+    background-color: #3b82f6;
+    color: #ffffff;
+  }
+
+  .mobile-menu i {
+    font-size: 1.2rem;
+    margin-right: 1rem; /* Plus d'espace entre l'icône et le texte */
+  }
+
+  .mobile-menu span {
+    margin-left: 0.5rem; /* Ajouter plus d'espace à gauche du texte */
+    display: inline;
+  }
+
+  .mobile-menu {
+    display: none;
+  }
+  
+  .mobile-menu.active {
+    display: block;
+  }
+
 /* Couleurs pour les thèmes */
-/* Pour le thème sombre */
-.dark .leaflet-control-attribution {
-  color: #ffffff; /* Couleur blanche pour le texte de l'attribution en mode sombre */
-}
-
-.dark .leaflet-control-zoom-in,
-.dark .leaflet-control-zoom-out {
-  background-color: #333333; /* Couleur d'arrière-plan sombre pour les boutons de zoom */
-  color: #3B82F6; /* Couleur bleue pour les icônes des boutons de zoom */
-}
-
-.dark .leaflet-control-zoom-in:hover,
-.dark .leaflet-control-zoom-out:hover {
-  background-color: #444444; /* Couleur d'arrière-plan plus foncée au survol */
-}
-
-
 .dark .text-blue-dark {
   color: #3B82F6; /* Couleur bleue en mode sombre */
 }
@@ -48,8 +93,7 @@
 }
 
 
-
-  .dark .bg-gray-800 {
+.dark .bg-gray-800 {
     background-color: #0284c7; /* Beige pour le footer */
 }
 
@@ -136,3 +180,52 @@
     100% { transform: scale(1); }
   }
   
+
+/* Style du bouton mobile */
+.btn-mobile {
+  background-color: #ff5722; /* Couleur de fond orange */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-mobile:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.btn-mobile:active {
+  transform: scale(1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-mobile i {
+  color: white;
+  font-size: 24px;
+}
+
+/* Animation de rebond pour le bouton */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
