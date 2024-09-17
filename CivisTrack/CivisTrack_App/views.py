@@ -105,7 +105,7 @@ def connexion(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('accueil')
+            return redirect('accueil2')
         else:
             messages.error(request, 'Nom d\'utilisateur ou mot de passe incorrect.')
     return render(request, 'CivisTrack_App/connexion.html')
@@ -134,3 +134,9 @@ def services1(request):
         'services_data': services_data,
         'categories_data': categories_data
     })
+
+
+def accueil2(request):
+    return render(request, 'CivisTrack_App/accueil2.html')
+
+ 
