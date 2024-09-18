@@ -6,18 +6,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CivisTrack - Services Publics en Côte d'Ivoire</title>
-  
-  <!-- Inclusion de Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-  <!-- Inclusion du fichier CSS personnalisé -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="{% static 'CivisTrack_App/css/accueil.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-  <!-- Inclusion de Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    
 </head>
  
 <body class="bg-gray-100 bg-pattern min-h-screen" style="background-color: var(--bg-color); color: var(--text-color);" id="themeBody">
@@ -58,7 +51,7 @@
 
           <!-- Language Dropdown -->
           <div class="relative">
-            <button id="languageToggle" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300 text-white">
+            <button id="languageToggle" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-blue-500 hover:text-white transition duration-300 text-white">
               FR
             </button>
             <div id="languageDropdown" class="absolute right-0 mt-2 py-2 w-24 bg-white rounded-md shadow-xl z-20 hidden">

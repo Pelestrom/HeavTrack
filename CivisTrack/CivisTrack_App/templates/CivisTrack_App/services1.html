@@ -1,324 +1,187 @@
 {% load static %}
-<html>
-  <head>
-    <title>CivisTrack - Services</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
-    <link rel="stylesheet" href="{% static 'CivisTrack_App/css/services1.css' %}">
-   
-    </head>
-    <body class="bg-gray-100 bg-pattern min-h-screen" style="background-color: var(--bg-color); color: var(--text-color);">
-      <nav class="bg-white shadow-lg" style="background-color: var(--bg-color); color: var(--text-color);">
-        <div class="max-w-6xl mx-auto px-4">
-          <div class="flex justify-between">
-            <!-- Logo and Title -->
-            <div class="flex space-x-7">
-              <div>
-                <a href="#" class="flex items-center py-4 px-2">
-                  <!-- Adjust image size and alignment -->
-                  <img src="{% static 'CivisTrack_App/images/logo.png' %}" alt="Logo" class="h-11 w-auto object-contain">
-                  <span class="font-semibold text-gray-500 text-xl text-white">CivisTrack</span>
-                </a>
-              </div>
-            </div>
-      
-            <!-- Primary Nav -->
-            <div class="hidden md:flex items-center space-x-3">
-              <a href="{% url 'accueil' %}" class="nav-link py-2 px-2 font-medium text-gray-500 rounded hover:text-blue-500 transition duration-300 text-white flex items-center space-x-2">
-                <i class="fas fa-home text-blue-500"></i>
-                <span>Accueil</span>
-              </a>
-              <a href="{% url 'services1' %}" class="nav-link py-2 px-2 font-medium text-gray-500 rounded hover:text-blue-500 transition duration-300 text-white flex items-center space-x-2">
-                {% comment %} <i class="fas fa-search text-blue-500"></i> <!-- Icône de loupe --> {% endcomment %}
-                <i class="fa-solid fa-map-pin fa-lg text-blue-500"></i>
-                <span>Services</span>
-              </a>
-              
-              <a href="{% url 'propos' %}" class="nav-link py-2 px-2 font-medium text-gray-500 rounded hover:text-blue-500 transition duration-300 text-white flex items-center space-x-2">
-                <i class="fas fa-info-circle text-blue-500"></i>
-                <span>À propos</span>
-              </a>
-              <a href="{% url 'contact' %}" class="nav-link py-2 px-2 font-medium text-gray-500 rounded hover:text-blue-500 transition duration-300 text-white flex items-center space-x-2">
-                <i class="fas fa-envelope text-blue-500"></i>
-                <span>Contact</span>
-              </a>
+ 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivisTrack - Services Publics en Côte d'Ivoire</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'CivisTrack_App/css/services1.css' %}">
+   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     
-              <!-- Language Dropdown -->
-              <div class="relative">
-                <button id="languageToggle" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300 text-white">
-                  FR
-                </button>
-                <div id="languageDropdown" class="absolute right-0 mt-2 py-2 w-24 bg-white rounded-md shadow-xl z-20 hidden">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-blue-dark" onclick="changeLanguage('fr')">Français</a>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-blue-dark" onclick="changeLanguage('en')">English</a>
-                </div>
-              </div>
-              <div class="hidden md:flex items-center space-x-3">
-                <button id="themeToggle" class="py-2 px-2 font-medium text-gray-500 rounded hover:text-white transition duration-300 text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-      
-            <div class="md:hidden flex items-center">
-              <button id="mobile-menu-button" class="outline-none mobile-menu-button relative">
-                <svg class="w-8 h-8 text-gray-700 hover:text-blue-600 transition duration-300 ease-in-out" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-              </button>
-            </div>
-            
+</head>
+ 
+<body class="bg-gray-100 bg-pattern min-h-screen" style="background-color: var(--bg-color); color: var(--text-color);" id="themeBody">
+  <nav class="bg-white shadow-lg" style="background-color: var(--bg-color); color: var(--text-color);">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between">
+        <!-- Logo and Title -->
+        <div class="flex space-x-7">
+          <div>
+            <a href="#" class="flex items-center py-4 px-2">
+              <!-- Adjust image size and alignment -->
+              <img src="{% static 'CivisTrack_App/images/logo.png' %}" alt="Logo" class="h-11 w-auto object-contain">
+              <span class="font-semibold text-gray-500 text-xl text-white">CivisTrack</span>
+            </a>
           </div>
         </div>
-          <!-- Mobile Menu -->
-          <div class="mobile-menu bg-white shadow-lg rounded-lg absolute top-16 right-0 w-60 mt-2 transition-transform duration-300 ease-in-out transform translate-y-[-10px]">
-            <ul class="flex flex-col">
-              <li class="border-b border-gray-200">
-                <a href="{% url 'accueil' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="home">
-                  <!-- SVG pour Accueil -->
-                  <svg class="w-6 h-6 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 3v9.27a4.978 4.978 0 00-1.7-.27c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5V9h-2V3h-2zm-1 12.5a2.5 2.5 0 01-2.5-2.5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
-                  </svg>
-                  <span>Accueil</span>
-                </a>
-              </li>
-              <li class="border-b border-gray-200">
-                <a href="{% url 'services1' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="services">
-                  <!-- SVG pour Services -->
-                  <svg class="w-6 h-6 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-10c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
-                  </svg>
-                  <span>Services</span>
-                </a>
-              </li>
-              <li class="border-b border-gray-200">
-                <a href="{% url 'propos' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="about">
-                  <!-- SVG pour À propos -->
-                  <svg class="w-6 h-6 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 3v9.27a4.978 4.978 0 00-1.7-.27c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5V9h-2V3h-2zm-1 12.5a2.5 2.5 0 01-2.5-2.5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
-                  </svg>
-                  <span>À propos</span>
-                </a>
-              </li>
-              <li>
-                <a href="{% url 'contact' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="contact">
-                  <!-- SVG pour Contact -->
-                  <svg class="w-6 h-6 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M3 4v16h18V4H3zm0-2h18c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2zm3 16h12v-2H6v2zm0-4h12v-2H6v2zm0-4h12V6H6v2z"></path>
-                  </svg>
-                  <span>Contact</span>
-                </a>
-              </li>
-            </ul>
-          </div>
+  
+        <!-- Primary Nav -->
+        <div class="hidden md:flex items-center space-x-3">
+          <a href="{% url 'accueil' %}" class="nav-link py-2 px-2 font-medium text-gray-500 rounded hover:text-blue-500 transition duration-300 text-white flex items-center space-x-2">
+            <i class="fas fa-home text-blue-500"></i>
+            <span>Accueil</span>
+          </a>
+          <a href="{% url 'services1' %}" class="nav-link py-2 px-2 font-medium text-gray-500 rounded hover:text-blue-500 transition duration-300 text-white flex items-center space-x-2">
+            {% comment %} <i class="fas fa-search text-blue-500"></i> <!-- Icône de loupe --> {% endcomment %}
+            <i class="fa-solid fa-map-pin fa-lg text-blue-500"></i>
+            <span>Services</span>
+          </a>
           
-      </nav>
-    
-      <main class="container mx-auto mt-8 px-4">
-        <h1 class="text-4xl font-extrabold mb-6 text-center md:text-left text-black-50 transition-all transform hover:scale-105">
-            Services Publics
-        </h1>
-    
-        <div class="mb-6">
-            <input type="text" id="search-input" class="w-full p-3 border border-blue-400 rounded-lg focus:ring-4 focus:ring-blue-500 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md" placeholder="Rechercher un service...">
-        </div>
-    
-        <div class="mb-6">
-            <div id="category-buttons" class="flex flex-wrap justify-center md:justify-start space-x-4 space-y-4">
-                <!-- Les boutons de catégories seront ajoutés ici dynamiquement -->
-            </div>
-        </div>
-    
-        <div id="services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Les services seront ajoutés ici dynamiquement -->
-        </div>
-    </main>
-    
-    <script id="services-data" type="application/json">
-        {{ services_data|safe }}
-    </script>
-    <script id="categories-data" type="application/json">
-        {{ categories_data|safe }}
-    </script>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-          const services = JSON.parse(document.getElementById('services-data').textContent);
-          const categories = JSON.parse(document.getElementById('categories-data').textContent);
+          <a href="{% url 'propos' %}" class="nav-link py-2 px-2 font-medium text-gray-500 rounded hover:text-blue-500 transition duration-300 text-white flex items-center space-x-2">
+            <i class="fas fa-info-circle text-blue-500"></i>
+            <span>À propos</span>
+          </a>
+          <a href="{% url 'contact' %}" class="nav-link py-2 px-2 font-medium text-gray-500 rounded hover:text-blue-500 transition duration-300 text-white flex items-center space-x-2">
+            <i class="fas fa-envelope text-blue-500"></i>
+            <span>Contact</span>
+          </a>
 
-          function renderServices(filteredServices) {
-              const servicesList = document.getElementById('services-list');
-              servicesList.innerHTML = '';
-              filteredServices.forEach(service => {
-                  const serviceElement = document.createElement('div');
-                  serviceElement.className = 'bg-white p-4 rounded-lg shadow-md cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:translate-y-2 w-full mx-auto';
-                  serviceElement.innerHTML = `
-                      <h3 class="font-extrabold text-xl mb-3 text-black-100 transition-all duration-300 hover:text-black-200">${service.name}</h3>
-                  `;
-                  serviceElement.addEventListener('click', () => showServiceDetails(service));
-                  servicesList.appendChild(serviceElement);
-              });
-          }
-
-          function renderCategoryButtons() {
-              const categoryButtonsContainer = document.getElementById('category-buttons');
-              categoryButtonsContainer.innerHTML = '';
-  
-              const allButton = document.createElement('button');
-              allButton.textContent = 'Toutes les catégories';
-              allButton.className = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 focus:ring-4 focus:ring-blue-300 focus:outline-none';
-              allButton.addEventListener('click', () => filterServices(''));
-              categoryButtonsContainer.appendChild(allButton);
-  
-              categories.forEach(category => {
-                  const button = document.createElement('button');
-                  button.textContent = category.name;
-                  button.className = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 focus:ring-4 focus:ring-blue-300 focus:outline-none';
-                  button.addEventListener('click', () => filterServices(category.id));
-                  categoryButtonsContainer.appendChild(button);
-              });
-          }
-
-          function filterServices(categoryId) {
-              const searchTerm = document.getElementById('search-input').value.toLowerCase();
-              let filteredServices = services;
-              if (categoryId) {
-                  filteredServices = services.filter(service => service.category_id === parseInt(categoryId));
-              }
-              if (searchTerm) {
-                  filteredServices = filteredServices.filter(service => service.name.toLowerCase().includes(searchTerm));
-              }
-              renderServices(filteredServices);
-          }
-
-          function showServiceDetails(service) {
-              const selectedCategory = categories.find(category => category.id === service.category_id);
-              const categoryName = selectedCategory ? selectedCategory.name : 'Unknown';
-
-              const detailsHtml = `
-                  <div class="fixed inset-0 bg-gray-700 bg-opacity-60 overflow-y-auto h-full w-full flex justify-center items-center" id="service-modal">
-                      <div class="relative p-6 w-full md:w-3/4 lg:w-2/3 bg-white rounded-lg shadow-lg animate-fade-in transform transition-transform duration-300 ease-in-out">
-                          <div class="flex justify-between items-center">
-                              <h2 class="text-3xl font-bold text-black-500">${service.name}</h2>
-                              <button class="text-2xl text-white bg-red-500 rounded-full w-8 h-8 flex items-center justify-center close-modal" title="Fermer">&times;</button>
-                          </div>
-                          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div>
-                                  <p class="mb-3">${service.description}</p>
-                                  <p class="mb-2"><strong>Horaires:</strong> ${service.horaires}</p>
-                                  <p class="mb-2 flex items-center">
-                                      <strong>Contact:</strong> ${service.contact}
-                                      <svg class="copy-icon inline-block w-5 h-5 ml-2 cursor-pointer text-green-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" onclick="copyToClipboard('${service.contact}')">
-                                          <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path>
-                                          <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path>
-                                      </svg>
-                                  </p>
-                                  <p class="mb-2 flex items-center">
-                                      <strong>Email:</strong> ${service.email}
-                                      <svg class="copy-icon inline-block w-5 h-5 ml-2 cursor-pointer text-green-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" onclick="copyToClipboard('${service.email}')">
-                                          <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path>
-                                          <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path>
-                                      </svg>
-                                  </p>
-                              </div>
-                              <div>
-                                  <div id="map" style="height: 300px;" class="rounded-lg overflow-hidden"></div>
-                                  <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mt-4" onclick="calculateRoute(${service.lat}, ${service.lng})">Calculer l'itinéraire</button>
-                              </div>
-                          </div>
-                          <button class="absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-700 close-modal" title="Fermer">&times;</button>
-                      </div>
-                  </div>
-              `;
-              const modalContainer = document.createElement('div');
-              modalContainer.innerHTML = detailsHtml;
-              document.body.appendChild(modalContainer);
-
-              const map = L.map('map').setView([service.lat, service.lng], 13);
-              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                  maxZoom: 19
-              }).addTo(map);
-              L.marker([service.lat, service.lng]).addTo(map);
-
-              document.querySelectorAll('.close-modal').forEach(button => {
-                  button.addEventListener('click', () => {
-                      modalContainer.classList.add('animate-fade-out');
-                      setTimeout(() => document.body.removeChild(modalContainer), 300);
-                  });
-              });
-          }
-
-          function calculateRoute(lat, lng) {
-              if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(position => {
-                      const userLatLng = [position.coords.latitude, position.coords.longitude];
-                      if (routingControl) {
-                          routingControl.remove();
-                      }
-                      routingControl = L.Routing.control({
-                          waypoints: [
-                              L.latLng(userLatLng),
-                              L.latLng(lat, lng)
-                          ],
-                          routeWhileDragging: true
-                      }).addTo(map);
-                  }, () => {
-                      alert("Impossible de récupérer votre position.");
-                  });
-              } else {
-                  alert("La géolocalisation n'est pas supportée par votre navigateur.");
-              }
-          }
-
-          function copyToClipboard(text) {
-              navigator.clipboard.writeText(text).then(() => {
-                  alert('Texte copié dans le presse-papiers!');
-              }).catch(err => {
-                  console.error('Erreur lors de la copie du texte: ', err);
-              });
-          }
-
-          renderCategoryButtons();
-          filterServices('');
-      });
-  </script>:
-    
-      <footer class="bg-gray-800 text-white py-8 mt-12">
-        <div class="container mx-auto px-4">
-          <div class="flex flex-wrap justify-between">
-            <div class="w-full md:w-1/3 mb-6 md:mb-0">
-              <h3 class="text-lg font-bold mb-2">CivisTrack</h3>
-              <p class="text-sm">Votre plateforme pour accéder facilement aux services publics.</p>
-            </div>
-            <div class="w-full md:w-1/3 mb-6 md:mb-0">
-              <h3 class="text-lg font-bold mb-2">Liens rapides</h3>
-              <ul class="text-sm">
-                <li><a href="index.html" class="hover:text-green-500">Accueil</a></li>
-                <li><a href="services.html" class="hover:text-green-500">Services</a></li>
-                <li><a href="about.html" class="hover:text-green-500">À propos</a></li>
-                <li><a href="contact.html" class="hover:text-green-500">Contact</a></li>
-              </ul>
-            </div>
-            <div class="w-full md:w-1/3">
-              <h3 class="text-lg font-bold mb-2">Nous contacter</h3>
-              <p class="text-sm">Email: contact@civistrack.ci</p>
-              <p class="text-sm">Téléphone: +225 27 20 30 40 50</p>
+          <!-- Language Dropdown -->
+          <div class="relative">
+            <button id="languageToggle" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-blue-500 hover:text-white transition duration-300 text-white">
+              FR
+            </button>
+            <div id="languageDropdown" class="absolute right-0 mt-2 py-2 w-24 bg-white rounded-md shadow-xl z-20 hidden">
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-blue-dark" onclick="changeLanguage('fr')">Français</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-blue-dark" onclick="changeLanguage('en')">English</a>
             </div>
           </div>
-          <div class="mt-8 text-center text-sm">
-            <p>&copy; 2023 CivisTrack. Tous droits réservés.</p>
+          <div class="hidden md:flex items-center space-x-3">
+            <button id="themeToggle" class="py-2 px-2 font-medium text-gray-500 rounded hover:text-white transition duration-300 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            </button>
           </div>
         </div>
-      </footer>
-    
-      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-      <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-      <script src="{% static 'CivisTrack_App/js/services1.js' %}" defer></script>
-    </body>
-    </html>
+  
+        <div class="md:hidden flex items-center">
+          <button id="mobile-menu-button" class="outline-none mobile-menu-button relative">
+            <svg class="w-8 h-8 text-gray-700 hover:text-blue-600 transition duration-300 ease-in-out" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+              <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+        
+      </div>
+    </div>
+      <!-- Mobile Menu -->
+      <div class="mobile-menu bg-white shadow-lg rounded-lg absolute top-16 right-0 w-60 mt-2 transition-transform duration-300 ease-in-out transform translate-y-[-10px]">
+        <ul class="flex flex-col">
+          <li class="border-b border-gray-200">
+            <a href="{% url 'accueil' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="home">
+              <!-- SVG pour Accueil -->
+              <svg class="w-6 h-6 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 3v9.27a4.978 4.978 0 00-1.7-.27c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5V9h-2V3h-2zm-1 12.5a2.5 2.5 0 01-2.5-2.5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
+              </svg>
+              <span>Accueil</span>
+            </a>
+          </li>
+          <li class="border-b border-gray-200">
+            <a href="{% url 'services1' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="services">
+              <!-- SVG pour Services -->
+              <svg class="w-6 h-6 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-10c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
+              </svg>
+              <span>Services</span>
+            </a>
+          </li>
+          <li class="border-b border-gray-200">
+            <a href="{% url 'propos' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="about">
+              <!-- SVG pour À propos -->
+              <svg class="w-6 h-6 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 3v9.27a4.978 4.978 0 00-1.7-.27c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5V9h-2V3h-2zm-1 12.5a2.5 2.5 0 01-2.5-2.5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
+              </svg>
+              <span>À propos</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'contact' %}" class="block text-sm text-gray-700 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center" data-translate="contact">
+              <!-- SVG pour Contact -->
+              <svg class="w-6 h-6 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 4v16h18V4H3zm0-2h18c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2zm3 16h12v-2H6v2zm0-4h12v-2H6v2zm0-4h12V6H6v2z"></path>
+              </svg>
+              <span>Contact</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+  </nav>
+
+  <main class="container mx-auto mt-8 px-4">
+    <h1 class="text-4xl font-extrabold mb-6 text-center md:text-left text-black-50 transition-all transform hover:scale-105">
+        Services Publics
+    </h1>
+
+    <div class="mb-6">
+        <input type="text" id="search-input" class="w-full p-3 border border-blue-400 rounded-lg focus:ring-4 focus:ring-blue-500 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md" placeholder="Rechercher un service...">
+    </div>
+
+    <div class="mb-6">
+        <div id="category-buttons" class="flex flex-wrap justify-center md:justify-start space-x-4 space-y-4">
+            <!-- Les boutons de catégories seront ajoutés ici dynamiquement -->
+        </div>
+    </div>
+
+    <div id="services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-blue-dark">
+        <!-- Les services seront ajoutés ici dynamiquement -->
+    </div>
+</main>
+
+<script id="services-data" type="application/json">
+    {{ services_data|safe }}
+</script>
+<script id="categories-data" type="application/json">
+    {{ categories_data|safe }}
+</script>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+<script src="{% static 'CivisTrack_App/js/services1.js' %}" defer></script>
+ 
+
+  <footer class="bg-gray-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-wrap justify-between">
+        <div class="w-full md:w-1/3 mb-6 md:mb-0">
+          <h3 class="text-lg font-bold mb-2">CivisTrack</h3>
+          <p class="text-sm">Votre plateforme pour accéder facilement aux services publics.</p>
+        </div>
+        <div class="w-full md:w-1/3 mb-6 md:mb-0">
+          <h3 class="text-lg font-bold mb-2"data-translate="Fast Link">Liens rapides</h3>
+          <ul class="text-sm">
+            <li><a href="accueil2.html" class="hover:text-green-500">Accueil</a></li>
+            <li><a href="services2.html" class="hover:text-green-500">Services</a></li>
+            <li><a href="propos.html" class="hover:text-green-500">À propos</a></li>
+            <li><a href="contact.html" class="hover:text-green-500">Contact</a></li>
+          </ul>
+        </div>
+        <div class="w-full md:w-1/3">
+          <h3 class="text-lg font-bold mb-2">Nous contacter</h3>
+          <p class="text-sm">Email: contact@civistrack.ci</p>
+          <p class="text-sm">Téléphone: +225 27 20 30 40 50</p>
+        </div>
+      </div>
+      <div class="mt-8 text-center text-sm">
+        <p>&copy; 2023 CivisTrack. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+   
+</body>
+</html>

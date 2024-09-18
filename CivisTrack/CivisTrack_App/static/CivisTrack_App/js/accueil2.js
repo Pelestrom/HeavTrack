@@ -78,13 +78,12 @@ setTimeout(function() {
   }
 }, 1000);
 
-
 const languageToggle = document.getElementById('languageToggle');
 const languageDropdown = document.getElementById('languageDropdown');
 
 const translations = {
   'fr': {
-    'welcome': 'Biene sur CivisTrack',
+    'welcome': 'Bienvenue sur CivisTrack',
     'locateServices': 'Localisez facilement les services publics en Côte d\'Ivoire',
     'signup': 'S\'inscrire',
     'login': 'Se connecter',
@@ -102,14 +101,12 @@ const translations = {
     'home': 'Accueil',
     'services': 'Services',
     'about': 'À propos',
-    'contact': 'Contact'
-      
+    'contact': 'Contact',
+    'searchPublicSpace': 'Rechercher un espace public'
   },
   'en': {
     'welcome': 'Welcome to CivisTrack',
     'locateServices': 'Easily locate public services in Côte d\'Ivoire',
-    'signup': 'Sign Up',
-    'login': 'Log In',
     'nearbyServices': 'Nearby public services',
     'serviceCategories': 'Service Categories',
     'health': 'Health',
@@ -124,25 +121,32 @@ const translations = {
     'home': 'Home',
     'services': 'Services',
     'about': 'About',
-    'contact': 'Contact'
-     
-
+    'contact': 'Contact',
+    'searchPublicSpace': 'Search public space'
   }
 };
 
-let currentLanguage = 'fr';
+// Chargez la langue enregistrée dans localStorage ou définissez le français par défaut
+let currentLanguage = localStorage.getItem('language') || 'fr';
 
+// Mise à jour du bouton avec l'abréviation de la langue
+languageToggle.textContent = currentLanguage.toUpperCase();
+
+// Affiche ou masque le menu déroulant de la langue
 languageToggle.addEventListener('click', () => {
   languageDropdown.classList.toggle('hidden');
 });
 
+// Change la langue, met à jour localStorage et la page
 function changeLanguage(lang) {
   currentLanguage = lang;
+  localStorage.setItem('language', lang); // Enregistre la langue choisie
   languageToggle.textContent = lang.toUpperCase();
   languageDropdown.classList.add('hidden');
   updatePageLanguage();
 }
 
+// Met à jour tous les éléments traduits de la page
 function updatePageLanguage() {
   document.querySelectorAll('[data-translate]').forEach(element => {
     const key = element.getAttribute('data-translate');
@@ -151,6 +155,10 @@ function updatePageLanguage() {
     }
   });
 }
+
+// Initialise la page avec la langue correcte
+updatePageLanguage();
+
 
 document.addEventListener('DOMContentLoaded', updatePageLanguage);
 // Theme switching
