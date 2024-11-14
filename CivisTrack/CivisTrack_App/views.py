@@ -105,7 +105,7 @@ def connexion(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('accueil')
+            return redirect('accueil2')
         else:
             messages.error(request, 'Nom d\'utilisateur ou mot de passe incorrect.')
     return render(request, 'CivisTrack_App/connexion.html')
@@ -116,10 +116,27 @@ def accueil(request):
 
  # @login_required
  
+ 
+
+import json
 from django.shortcuts import render
 from .models import Service, Category
 
-def service_list(request):
-    services = Service.objects.all()
-    categories = Category.objects.all()
-    return render(request, 'service_list.html', {'services': services, 'categories': categories})
+
+def services1(request):
+    services = list(Service.objects.values('id', 'name', 'description', 'horaires', 'contact', 'email', 'lat', 'lng', 'category_id'))
+    categories = list(Category.objects.values('id', 'name'))
+    
+    services_data = json.dumps(services)
+    categories_data = json.dumps(categories)
+
+    return render(request, 'CivisTrack_App/services1.html', {
+        'services_data': services_data,
+        'categories_data': categories_data
+    })
+
+
+def accueil2(request):
+    return render(request, 'CivisTrack_App/accueil2.html')
+
+ 

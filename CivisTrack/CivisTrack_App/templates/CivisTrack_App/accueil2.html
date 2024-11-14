@@ -1,3 +1,4 @@
+ 
 {% load static %}
  
 <!DOCTYPE html>
@@ -7,9 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CivisTrack - Services Publics en Côte d'Ivoire</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="{% static 'CivisTrack_App/css/services1.css' %}">
+  <link rel="stylesheet" href="{% static 'CivisTrack_App/css/accueil.css' %}">
    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     
 </head>
@@ -52,7 +52,7 @@
 
           <!-- Language Dropdown -->
           <div class="relative">
-            <button id="languageToggle" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-blue-500 hover:text-white transition duration-300 text-white">
+            <button id="languageToggle" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300 text-white">
               FR
             </button>
             <div id="languageDropdown" class="absolute right-0 mt-2 py-2 w-24 bg-white rounded-md shadow-xl z-20 hidden">
@@ -124,36 +124,59 @@
   </nav>
 
   <main class="container mx-auto mt-8 px-4">
-    <h1 class="text-4xl font-extrabold mb-6 text-center md:text-left text-black-50 transition-all transform hover:scale-105">
-        Services Publics
-    </h1>
-
-    <div class="mb-6">
-        <input type="text" id="search-input" class="w-full p-3 border border-blue-400 rounded-lg focus:ring-4 focus:ring-blue-500 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md" placeholder="Rechercher un service...">
+    <section class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-4 text-gray-800 text-white" data-translate="welcome">Bienvenue sur CivisTrack</h1>
+      <p class="text-xl text-gray-600" data-translate="locateServices">Localisez facilement les services publics en Côte d'Ivoire</p>
+      <div class="mt-8">
+        <a href="{% url 'services1' %}" class="btn-3d bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+            <!-- Utilisation d'une icône de FontAwesome -->
+            <i class="fas fa-search mr-2"></i>
+            <span data-translate="searchPublicSpace">Rechercher un espace public</span>
+        </a>
     </div>
+    </section>
 
-    <div class="mb-6">
-        <div id="category-buttons" class="flex flex-wrap justify-center md:justify-start space-x-4 space-y-4">
-            <!-- Les boutons de catégories seront ajoutés ici dynamiquement -->
-        </div>
-    </div>
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4" data-translate="nearbyServices">Services publics à proximité</h2>
+      <div id="map-container" class="map-container">
+        <div id="map" class="rounded-lg shadow-lg"></div>
+      </div>
+    </section>
+    <section class="mb-6">
+      <h2 class="text-2xl font-semibold mb-4" data-translate="serviceCategories">Catégories de services</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <button class="btn-3d bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" data-translate="health">
+          Santé
+        </button>
+        <button class="btn-3d bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" data-translate="security">
+          Sécurité
+        </button>
+        <button class="btn-3d bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded" data-translate="education">
+          Éducation
+        </button>
+        <button class="btn-3d bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" data-translate="administration">
+          Administration
+        </button>
+        <button class="btn-3d bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" data-translate="restaurants">
+          Restaurants
+        </button>
+        <button class="btn-3d bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" data-translate="leisure">
+          Loisirs
+        </button>
+        <button class="btn-3d bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" style="background-color:#8f3b0a;" data-translate="shoppingCenters">
+          Centres commerciaux
+        </button>
+        <button class="btn-3d bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded" style="background-color:#ff00aa;"  data-translate="hotels">
+          Hôtels
+        </button>
+        <button class="btn-3d bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded" style="background-color:#5b5b5b;" data-translate="banks">
+          Banques
+        </button>
+      </div>
+    </section>
 
-    <div id="services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-blue-dark">
-        <!-- Les services seront ajoutés ici dynamiquement -->
-    </div>
-</main>
-
-<script id="services-data" type="application/json">
-    {{ services_data|safe }}
-</script>
-<script id="categories-data" type="application/json">
-    {{ categories_data|safe }}
-</script>
-
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-<script src="{% static 'CivisTrack_App/js/services1.js' %}" defer></script>
- 
+   
+  </main>
 
   <footer class="bg-gray-800 text-white py-8 mt-12">
     <div class="container mx-auto px-4">
@@ -166,7 +189,7 @@
           <h3 class="text-lg font-bold mb-2"data-translate="Fast Link">Liens rapides</h3>
           <ul class="text-sm">
             <li><a href="accueil2.html" class="hover:text-green-500">Accueil</a></li>
-            <li><a href="services2.html" class="hover:text-green-500">Services</a></li>
+            <li><a href="services.html" class="hover:text-green-500">Services</a></li>
             <li><a href="propos.html" class="hover:text-green-500">À propos</a></li>
             <li><a href="contact.html" class="hover:text-green-500">Contact</a></li>
           </ul>
@@ -182,6 +205,10 @@
       </div>
     </div>
   </footer>
-   
+  <script>
+  </script>
+    <!-- Inclusion de fichiers JS externes -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="{% static 'CivisTrack_App/js/accueil.js' %}" defer></script>  
 </body>
 </html>

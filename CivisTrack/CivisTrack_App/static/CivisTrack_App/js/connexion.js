@@ -1,19 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  // Changement de thème (clair/sombre)
-  const themeToggleBtn = document.createElement('button');
-  themeToggleBtn.innerText = 'Changer de thème';
-  themeToggleBtn.classList.add('fixed', 'top-4', 'right-4', 'bg-gray-700', 'text-white', 'py-2', 'px-4', 'rounded');
-  document.body.appendChild(themeToggleBtn);
-
-  themeToggleBtn.addEventListener('click', function() {
-      document.body.classList.toggle('dark');
-      if (document.body.classList.contains('dark')) {
-          themeToggleBtn.innerText = 'Passer en mode clair';
-      } else {
-          themeToggleBtn.innerText = 'Passer en mode sombre';
-      }
-  });
 
   // Validation en temps réel du formulaire
   const form = document.querySelector('form');

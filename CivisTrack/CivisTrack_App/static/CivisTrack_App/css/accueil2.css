@@ -205,4 +205,89 @@ body.dark .theme-icon.moon:hover {
     100% { transform: scale(1); }
   }
   
- 
+
+/* Style du bouton mobile */
+.btn-mobile {
+  background-color: #ff5722; /* Couleur de fond orange */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-mobile:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.btn-mobile:active {
+  transform: scale(1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-mobile i {
+  color: white;
+  font-size: 24px;
+}
+
+/* Styles pour le menu mobile */
+.mobile-menu {
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.mobile-menu li {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.mobile-menu a {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  color: #4b5563;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mobile-menu a:hover {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.mobile-menu i {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+
+
+/* Animation de rebond pour le bouton */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
