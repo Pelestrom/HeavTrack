@@ -1,5 +1,49 @@
- 
+# # from django.shortcuts import render, redirect
+# # from django.contrib.auth import login, authenticate
+# # from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+# # from django.contrib import messages
+# # from .forms import CustomUserCreationForm, CustomAuthenticationForm
 
+# # # views.py
+ 
+# # def inscription(request):
+# #     if request.method == 'POST':
+# #         form = CustomUserCreationForm(request.POST)
+# #         if form.is_valid():
+# #             user = form.save()
+# #             login(request, user)
+# #             messages.success(request, 'Inscription réussie!')
+# #             return redirect('accueil')  # Assurez-vous que 'accueil' est une URL valide
+# #     else:
+# #         form = CustomUserCreationForm()
+# #     return render(request, 'inscription.html', {'form': form})
+
+
+# # def connexion(request):
+# #     if request.method == 'POST':
+# #         form = CustomAuthenticationForm(request, data=request.POST)
+# #         if form.is_valid():
+# #             user = form.get_user()
+ #             login(request, user)
+ #             messages.success(request, 'Connexion réussie!')
+ #             return redirect('accueil')  # Remplacez 'home' par le nom de votre page d'accueil
+ #     else:
+ #         form = CustomAuthenticationForm()
+#     return render(request, 'connexion.html', {'form': form})
+
+
+ 
+#  def connexion(request):
+#      return render(request, 'CivisTrack_App/connexion.html', {})
+
+#  def inscription(request):
+#      return render(request, 'CivisTrack_App/inscription.html', {})
+
+
+
+
+#  def accueil(request):
+#     return render(request, 'CivisTrack_App/accueil.html')  # 'index.html' est le fichier du template d'accueil
 
 def services1(request):
      return render(request, 'CivisTrack_App/services1.html')
