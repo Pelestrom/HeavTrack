@@ -1,16 +1,11 @@
- 
-  {% load static %}
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CivisTrack - Connexion</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'CivisTrack_App/css/connexion.css' %}">
-</head>
-<body class="bg-gray-100 bg-pattern min-h-screen flex items-center justify-center" style="background-color: var(--bg-color); color: var(--text-color);">
-  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md" style="background-color: var(--bg-color);">
+
+{% extends "CivisTrack_App/base3.html" %} 
+{% block title %}CivisTrack - Connexion {% endblock %}
+{% block content %}
+
+
+<div class="bg-gray-100 bg-pattern min-h-screen flex items-center justify-center" style="background-color: blue; color: var(--text-color)">
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md" style="background-color: red;">
       <h2 class="text-2xl font-bold mb-6 text-center">Connexion</h2>
 
       <form method="post" action="{% url 'connexion' %}">
@@ -59,7 +54,9 @@
           {% endif %}
       </form>
   </div>
-  
-  <script src="{% static 'CivisTrack_App/js/connexion.js' %}" defer></script>
-</body>
-</html>
+
+</div>
+{% comment %} <--on fera des test avec ce qui est en bas {% endcomment %}
+
+
+{% endblock %}

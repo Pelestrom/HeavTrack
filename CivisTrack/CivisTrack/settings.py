@@ -66,9 +66,9 @@ WSGI_APPLICATION = 'CivisTrack.wsgi.application'
 DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'CIVISTRACK',
-        'USER': 'postgres',
-        'PASSWORD': '0140087183',
+        'NAME': 'civistrack',
+        'USER': 'jeanm',
+        'PASSWORD': '',
         'HOST': 'localhost',  # ou l'adresse de ton serveur si c'est un serveur distant
         'PORT': '5432',       # le port par défaut de PostgreSQL
  
